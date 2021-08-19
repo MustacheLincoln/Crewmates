@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863994c984fcfbd4e9573cf6bfcccff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crewmate: {fileID: 0}
+  crewmate: {fileID: 8774749551481295621, guid: b1b34cb87db11c74198d34e2fa35073d, type: 3}
 --- !u!4 &611002965
 Transform:
   m_ObjectHideFlags: 0

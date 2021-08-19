@@ -46,7 +46,19 @@ namespace Crewmates
 
         private void RequestNextTask()
         {
-            Debug.Log(taskSystem.RequestNextTask());
+            if (taskSystem != null)
+            {
+                TaskSystem.Task task = taskSystem.RequestNextTask();
+                if (task == null)
+                {
+                    state = State.WaitingForNextTask;
+                }
+                else
+                {
+                    state = State.ExecutingTask;
+                    ExecuteTask(task);
+                }
+            }
         }
 
         private void ExecuteTask(TaskSystem.Task task)

@@ -16,7 +16,7 @@ namespace Crewmates
 
         public void MoveTo(Vector3 position, Action onArrivedAtPosition = null)
         {
-            navMesh.movementTarget = position;
+            navMesh.MoveTo(position, onArrivedAtPosition);
         }
 
         public Vector3 GetPosition()

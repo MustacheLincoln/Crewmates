@@ -20,7 +20,6 @@ namespace Crewmates
 
         public Task RequestNextTask()
         {
-            Debug.Log("RequestNextTask");
             if (taskList.Count > 0)
             {
                 Task task = taskList[0];

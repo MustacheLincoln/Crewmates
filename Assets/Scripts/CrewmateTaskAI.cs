@@ -13,20 +13,28 @@ namespace Crewmates
             ExecutingTask,
         }
 
+        private GameHandler gameHandler;
         private IMoveable crewmate;
         private TaskSystem taskSystem;
-        private State state;
-        private float awareness = .2f;
+        [SerializeField] private State state;
+        private float awareness = 1;
         private float waitingTimer;
+
+        private void Awake()
+        {
+            //My own stuff not from the tutorial
+            gameHandler = FindObjectOfType<GameHandler>();
+            crewmate = GetComponent<IMoveable>();
+            //
+            taskSystem = gameHandler.taskSystem;
+        }
 
         public void Setup(IMoveable crewmate, TaskSystem taskSystem)
         {
+            //Redundant
             this.crewmate = crewmate;
             this.taskSystem = taskSystem;
-            Debug.Log(crewmate);
-            Debug.Log(taskSystem);
-            state = State.WaitingForNextTask;
-            waitingTimer = awareness;
+
         }
 
         private void Update()
@@ -46,24 +54,20 @@ namespace Crewmates
 
         private void RequestNextTask()
         {
-            if (taskSystem != null)
+            TaskSystem.Task task = taskSystem.RequestNextTask();
+            if (task == null)
             {
-                TaskSystem.Task task = taskSystem.RequestNextTask();
-                if (task == null)
-                {
-                    state = State.WaitingForNextTask;
-                }
-                else
-                {
-                    state = State.ExecutingTask;
-                    ExecuteTask(task);
-                }
+                state = State.WaitingForNextTask;
+            }
+            else
+            {
+                state = State.ExecutingTask;
+                ExecuteTask(task);
             }
         }
 
         private void ExecuteTask(TaskSystem.Task task)
         {
-            Debug.Log("ExecuteTask");
             crewmate.MoveTo(task.targetPosition, () =>
             {
                 state = State.WaitingForNextTask;

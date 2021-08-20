@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,14 +61,32 @@ namespace Crewmates
             else
             {
                 state = State.ExecutingTask;
-                ExecuteTask(task);
+                if (task is TaskSystem.Task.MoveToPosition)
+                {
+                    ExecuteMoveToPositionTask(task as TaskSystem.Task.MoveToPosition);
+                    return;
+                }
+                if (task is TaskSystem.Task.BirdPoopCleanUp)
+                {
+                    ExecuteBirdPoopCleanUpTask(task as TaskSystem.Task.BirdPoopCleanUp);
+                    return;
+                }
+                Debug.LogError("Task type unknown!");
             }
         }
 
-        private void ExecuteTask(TaskSystem.Task task)
+        private void ExecuteMoveToPositionTask(TaskSystem.Task.MoveToPosition task)
         {
             crewmate.MoveTo(task.targetPosition, () =>
             {
+                state = State.WaitingForNextTask;
+            });
+        }
+
+        private void ExecuteBirdPoopCleanUpTask(TaskSystem.Task.BirdPoopCleanUp task)
+        {
+            crewmate.MoveTo(task.targetPosition, () => {
+                task.cleanUpAction();
                 state = State.WaitingForNextTask;
             });
         }

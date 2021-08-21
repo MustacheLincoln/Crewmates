@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,13 +72,19 @@ namespace Crewmates
                     ExecuteBirdPoopCleanUpTask(task as TaskSystem.Task.BirdPoopCleanUp);
                     return;
                 }
+                if (task is TaskSystem.Task.TakeRumToCrate)
+                {
+                    ExecuteTakeRumToCrate(task as TaskSystem.Task.TakeRumToCrate);
+                    return;
+                }
                 Debug.LogError("Task type unknown!");
             }
         }
 
+
         private void ExecuteMoveToPositionTask(TaskSystem.Task.MoveToPosition task)
         {
-            crewmate.MoveTo(task.targetPosition, () =>
+            crewmate.MoveTo(task.movePosition, () =>
             {
                 state = State.WaitingForNextTask;
             });
@@ -85,9 +92,19 @@ namespace Crewmates
 
         private void ExecuteBirdPoopCleanUpTask(TaskSystem.Task.BirdPoopCleanUp task)
         {
-            crewmate.MoveTo(task.targetPosition, () => {
+            crewmate.MoveTo(task.poopPosition, () => {
                 task.cleanUpAction();
                 state = State.WaitingForNextTask;
+            });
+        }
+        private void ExecuteTakeRumToCrate(TaskSystem.Task.TakeRumToCrate task)
+        {
+            crewmate.MoveTo(task.rumPosition, () => {
+                task.grabRum(this);
+                crewmate.MoveTo(task.cratePosition, () => {
+                    task.dropRum();
+                    state = State.WaitingForNextTask;
+                });
             });
         }
     }

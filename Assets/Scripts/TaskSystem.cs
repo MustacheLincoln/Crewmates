@@ -12,13 +12,21 @@ namespace Crewmates
         {
             public class MoveToPosition : Task
             {
-                public Vector3 targetPosition;
+                public Vector3 movePosition;
             }
 
             public class BirdPoopCleanUp : Task
             {
-                public Vector3 targetPosition;
+                public Vector3 poopPosition;
                 public Action cleanUpAction;
+            }
+
+            public class TakeRumToCrate : Task
+            {
+                public Vector3 rumPosition;
+                public Action<CrewmateTaskAI> grabRum;
+                public Vector3 cratePosition;
+                public Action dropRum;
             }
         }
 

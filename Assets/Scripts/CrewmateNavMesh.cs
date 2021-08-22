@@ -8,7 +8,7 @@ namespace Crewmates
 {
     public class CrewmateNavMesh : MonoBehaviour
     {
-        public bool isMoving = false;
+        private bool isMoving = false;
         private Action onArrivedAtPosition;
         private NavMeshAgent navMeshAgent;
 
@@ -28,7 +28,7 @@ namespace Crewmates
             {
                 if(isMoving == true)
                 {
-                    onArrivedAtPosition();
+                    onArrivedAtPosition?.Invoke();
                     isMoving = false;
                 }
             }
@@ -39,7 +39,10 @@ namespace Crewmates
             }
         }
 
-
+        internal void ChangePriority(int priority)
+        {
+            navMeshAgent.avoidancePriority = priority;
+        }
     }
 }
 

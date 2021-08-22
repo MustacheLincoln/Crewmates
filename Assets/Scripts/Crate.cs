@@ -6,20 +6,17 @@ namespace Crewmates
 {
     public class Crate : MonoBehaviour
     {
-        public int items;
-        public int incomingItems;
-        public int maxItems;
+        public int items = 0;
+        public int incomingItems = 0;
+        public int maxItems = 4;
+
+        private GameManager gm;
 
         private void Awake()
         {
-            items = 0;
-            incomingItems = 0;
-            maxItems = 4;
+            gm = FindObjectOfType<GameManager>();
+            gm.crates.Add(this);
         }
 
-        public Vector3 GetPosition()
-        {
-            return transform.position;
-        }
     }
 }

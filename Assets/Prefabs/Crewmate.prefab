@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8774749551481295620}
   - component: {fileID: 8774749551481295675}
   - component: {fileID: 8774749551481295672}
-  - component: {fileID: 7911064164102475816}
   - component: {fileID: 214156000632705338}
   m_Layer: 0
   m_Name: Crewmate
@@ -109,7 +108,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8774749551481295621}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 10
   avoidancePriority: 50
@@ -134,20 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf292b4459203c4989c6fa398f681cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
---- !u!114 &7911064164102475816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8774749551481295621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f246029bb4daeeb47bb9a82ce0b1afb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
 --- !u!114 &214156000632705338
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public interface ITaskable
+    public interface ITask
     {
         public void Task(Crewmate crewmate);
     }

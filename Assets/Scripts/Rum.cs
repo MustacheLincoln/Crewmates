@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Rum : MonoBehaviour, ITaskable
+    public class Rum : MonoBehaviour, ITask
     {
         public bool isStored;
 
@@ -26,8 +26,8 @@ namespace Crewmates
                     foreach (Crate crate in gm.crates)
                     {
                         if (crate.items + crate.incomingItems < crate.maxItems)
-                            if (!gm.tasks.Contains(gameObject))
-                                gm.tasks.Add(gameObject);
+                            if (!gm.globalTasks.Contains(gameObject))
+                                gm.globalTasks.Add(gameObject);
                     }
                 }
             }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class BirdPoop : MonoBehaviour, ITaskable
+    public class BirdPoop : MonoBehaviour, ITask
     {
         private GameManager gm;
 
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-            gm.tasks.Add(gameObject);
+            gm.globalTasks.Add(gameObject);
         }
 
         public void Task(Crewmate crewmate)

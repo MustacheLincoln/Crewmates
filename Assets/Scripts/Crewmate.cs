@@ -11,12 +11,14 @@ namespace Crewmates
         private CrewmateNavMesh navMesh;
 
         public GameObject myTask;
+        private Vector3 wanderPosition;
 
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
             gm.crewmates.Add(this);
             navMesh = GetComponent<CrewmateNavMesh>();
+            Invoke("ChangeWanderPosition", UnityEngine.Random.Range(2, 8));
         }
 
         private void Start()
@@ -40,10 +42,10 @@ namespace Crewmates
 
         private void FindTask()
         {
-            if (gm.tasks.Count > 0)
+            if (gm.globalTasks.Count > 0)
             {
-                float closestTask = gm.tasks.Min(t => (t.transform.position - transform.position).magnitude);
-                foreach (GameObject task in gm.tasks.ToList())
+                float closestTask = gm.globalTasks.Min(t => (t.transform.position - transform.position).magnitude);
+                foreach (GameObject task in gm.globalTasks.ToList())
                 {
                     float dist = (task.transform.position - transform.position).magnitude;
                     if (dist == closestTask)
@@ -61,9 +63,9 @@ namespace Crewmates
                             {
                                 if (dist == closestCrewmate)
                                 {
-                                    gm.tasks.Remove(task);
+                                    gm.globalTasks.Remove(task);
                                     myTask = task;
-                                    task.GetComponent<ITaskable>().Task(this);
+                                    task.GetComponent<ITask>().Task(this);
                                     break;
                                 }
                             }
@@ -72,8 +74,14 @@ namespace Crewmates
                 }
             }
             else
-                MoveTo(Vector3.zero);
+                MoveTo(wanderPosition);
         }
+        private void ChangeWanderPosition()
+        {
+            wanderPosition = gm.GetRandomPosition();
+            Invoke("ChangeWanderPosition", UnityEngine.Random.Range(2, 8));
+        }
+
 
         public void ClearTask()
         {

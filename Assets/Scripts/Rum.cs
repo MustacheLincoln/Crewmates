@@ -97,7 +97,6 @@ namespace Crewmates
             if (storedIn)
                 storedIn.items--;
             crewmate.mood += moodBoost;
-            crewmate.seekingRum = false;
             Destroy(gameObject);
         }
     }

@@ -56,24 +56,49 @@ namespace Crewmates
             }
             */
             mood -= Time.deltaTime;
-            if (mood < 50)
-            {
-                if (seekingRum == false)
-                {
-                    GetRum();
-                }
-            }
             if (myTask == null)
-            {
+                if (mood < 50)
+                    GetRum();
+            if (myTask == null)
                 FindTask();
-            }
+
         }
 
         public void GetRum()
         {
             seekingRum = true;
-            GameObject drinkRum = Instantiate(drinkRumPrefab);
-            personalTasks.Add(drinkRum);
+            Rum rum = ClosestRum();
+            if (rum)
+            {
+                rum.beingUsed = true;
+                rum.RemoveTask();
+                myTask = rum.gameObject;
+                MoveTo(rum.gameObject.transform.position, () =>
+                {
+                    rum.Drank(this);
+                    Destroy(rum.gameObject);
+                });
+            }
+        }
+
+        private Rum ClosestRum()
+        {
+            Rum closestRum = null;
+            float closestDist = Mathf.Infinity;
+            foreach (Rum rum in FindObjectsOfType<Rum>())
+            {
+                if (rum.beingUsed == false)
+                {
+                    float dist = (rum.transform.position - transform.position).magnitude;
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        closestRum = rum;
+                    }
+                }
+
+            }
+            return closestRum;
         }
 
         private void FindTask()
@@ -105,7 +130,7 @@ namespace Crewmates
             myTask.GetComponent<ITask>().Task(this);
         }
 
-        private bool IsClosestCrewmate(GameObject closestTask)
+        private bool IsClosestCrewmate(GameObject obj)
         {
             Crewmate closestCrewmate = null;
             float closestDist = Mathf.Infinity;
@@ -113,7 +138,7 @@ namespace Crewmates
             {
                 if (crewmate.myTask == null)
                 {
-                    float dist = (closestTask.transform.position - crewmate.transform.position).magnitude;
+                    float dist = (obj.transform.position - crewmate.transform.position).magnitude;
                     if (dist < closestDist)
                     {
                         closestDist = dist;

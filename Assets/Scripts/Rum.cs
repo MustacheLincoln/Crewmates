@@ -18,15 +18,7 @@ namespace Crewmates
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-        }
-
-        private void Start()
-        {
-            Crewmate closestWantingCrewmate = ClosestWantingCrewmate();
-            if (closestWantingCrewmate)
-            {
-                closestWantingCrewmate.GetRum();
-            }
+            gm.rum.Add(this);
         }
 
         private void Update()
@@ -107,25 +99,6 @@ namespace Crewmates
             crewmate.mood += moodBoost;
             crewmate.seekingRum = false;
             Destroy(gameObject);
-        }
-
-        private Crewmate ClosestWantingCrewmate()
-        {
-            Crewmate closestCrewmate = null;
-            float closestDist = Mathf.Infinity;
-            foreach (Crewmate crewmate in gm.crewmates)
-            {
-                if (crewmate.seekingRum)
-                {
-                    float dist = (transform.position - crewmate.transform.position).magnitude;
-                    if (dist < closestDist)
-                    {
-                        closestDist = dist;
-                        closestCrewmate = crewmate;
-                    }
-                }
-            }
-            return closestCrewmate;
         }
     }
 }

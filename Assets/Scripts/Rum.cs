@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,11 @@ namespace Crewmates
     public class Rum : MonoBehaviour, ITask
     {
         public bool isStored;
+        public bool beingUsed;
 
         private GameManager gm;
-        private bool beingUsed;
+        private Crate storedIn;
+        private float moodBoost = 25;
 
         private void Awake()
         {
@@ -58,7 +61,10 @@ namespace Crewmates
                             {
                                 crate.incomingItems--;
                                 crate.items++;
-                                Destroy(gameObject);
+                                transform.SetParent(crate.transform);
+                                storedIn = crate;
+                                RemoveTask();
+                                crewmate.ClearTask();
                             });
                         });
                     }
@@ -71,6 +77,19 @@ namespace Crewmates
                 beingUsed = false;
             }
 
+        }
+
+        public void RemoveTask()
+        {
+            gm.globalTasks.Remove(gameObject);
+        }
+
+        public void Drank(Crewmate crewmate)
+        {
+            if (storedIn)
+                storedIn.items--;
+            crewmate.mood += moodBoost;
+            Destroy(gameObject);
         }
     }
 }

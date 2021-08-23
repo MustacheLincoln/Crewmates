@@ -2022,5 +2022,5 @@ MonoBehaviour:
   mouseRaycast: {fileID: 1650706428}
   birdPoopPrefab: {fileID: 3367111784056806995, guid: ab94eefde2e6d93409247f9224a8bd37, type: 3}
   crewmates: []
-  tasks: []
+  globalTasks: []
   crates: []

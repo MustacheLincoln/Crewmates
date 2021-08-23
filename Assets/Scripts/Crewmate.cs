@@ -9,15 +9,20 @@ namespace Crewmates
     {
         private GameManager gm;
         private CrewmateNavMesh navMesh;
+        [SerializeField] private GameObject drinkRumPrefab;
 
         public GameObject myTask;
         private Vector3 wanderPosition;
+        private List<GameObject> personalTasks;
+
+        public float mood = 100;
 
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
             gm.crewmates.Add(this);
             navMesh = GetComponent<CrewmateNavMesh>();
+            personalTasks = new List<GameObject>();
             Invoke("ChangeWanderPosition", UnityEngine.Random.Range(2, 8));
         }
 
@@ -25,6 +30,8 @@ namespace Crewmates
         {
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
+            GameObject drinkRum = Instantiate(drinkRumPrefab);
+            personalTasks.Add(drinkRum);
         }
 
         public void MoveTo(Vector3 position, Action onArrivedAtPosition = null)
@@ -42,40 +49,68 @@ namespace Crewmates
 
         private void FindTask()
         {
+            GameObject task;
+            if (personalTasks.Count > 0)
+            {
+                task = personalTasks[0];
+                SetTask(task);
+                return;
+            }
             if (gm.globalTasks.Count > 0)
             {
-                float closestTask = gm.globalTasks.Min(t => (t.transform.position - transform.position).magnitude);
-                foreach (GameObject task in gm.globalTasks.ToList())
+                task = ClosestTask();
+                if (IsClosestCrewmate(task))
                 {
-                    float dist = (task.transform.position - transform.position).magnitude;
-                    if (dist == closestTask)
-                    {
-                        List<Crewmate> idleCrewmates = new List<Crewmate>(gm.crewmates);
-                        foreach (Crewmate crewmate in gm.crewmates)
-                        {
-                            if (crewmate.myTask != null)
-                                idleCrewmates.Remove(crewmate);
-                        }
-                        if (idleCrewmates.Count > 0)
-                        {
-                            float closestCrewmate = idleCrewmates.Min(c => (c.transform.position - task.transform.position).magnitude);
-                            foreach (Crewmate crewmate in idleCrewmates)
-                            {
-                                if (dist == closestCrewmate)
-                                {
-                                    gm.globalTasks.Remove(task);
-                                    myTask = task;
-                                    task.GetComponent<ITask>().Task(this);
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    SetTask(task);
                 }
             }
             else
                 MoveTo(wanderPosition);
         }
+
+        private void SetTask(GameObject task)
+        {
+            myTask = task;
+            personalTasks.Remove(myTask);
+            gm.globalTasks.Remove(myTask);
+            myTask.GetComponent<ITask>().Task(this);
+        }
+
+        private bool IsClosestCrewmate(GameObject closestTask)
+        {
+            Crewmate closestCrewmate = null;
+            float closestDist = Mathf.Infinity;
+            foreach (Crewmate crewmate in gm.crewmates)
+            {
+                if (crewmate.myTask == null)
+                {
+                    float dist = (closestTask.transform.position - crewmate.transform.position).magnitude;
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        closestCrewmate = crewmate;
+                    }
+                }
+            }
+            return (this == closestCrewmate);
+        }
+
+        private GameObject ClosestTask()
+        {
+            GameObject closestTask= null;
+            float closestDist = Mathf.Infinity;
+            foreach (GameObject task in gm.globalTasks.ToList())
+            {
+                float dist = (task.transform.position - transform.position).magnitude;
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestTask = task;
+                }
+            }
+            return closestTask;
+        }
+
         private void ChangeWanderPosition()
         {
             wanderPosition = gm.GetRandomPosition();

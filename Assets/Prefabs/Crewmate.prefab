@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf292b4459203c4989c6fa398f681cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
 --- !u!114 &214156000632705338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480ba9c46350fd24094614458777a386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drinkRumPrefab: {fileID: 7053563249324382947, guid: 77ee66f8972dfe74fa54d24786954b1f, type: 3}
+  myTask: {fileID: 0}
+  mood: 100

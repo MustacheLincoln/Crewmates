@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class DrinkRum : MonoBehaviour, ITask
+    public class DrinkWater : MonoBehaviour, ITask
     {
         private GameManager gm;
 
@@ -16,14 +16,14 @@ namespace Crewmates
 
         public void Task(Crewmate crewmate)
         {
-            Rum rum = ClosestRum(crewmate);
-            if (rum)
+            Water water = ClosestWater(crewmate);
+            if (water)
             {
-                rum.beingUsed = true;
-                rum.RemoveTask();
-                crewmate.MoveTo(rum.gameObject.transform.position, () =>
+                water.beingUsed = true;
+                water.RemoveTask();
+                crewmate.MoveTo(water.gameObject.transform.position, () =>
                 {
-                    rum.Drank(crewmate);
+                    water.Drank(crewmate);
                     Destroy(gameObject);
                 });
             }
@@ -32,24 +32,24 @@ namespace Crewmates
                 Destroy(gameObject);
             }
         }
-        private Rum ClosestRum(Crewmate crewmate)
+        private Water ClosestWater(Crewmate crewmate)
         {
-            Rum closestRum = null;
+            Water closestWater = null;
             float closestDist = Mathf.Infinity;
-            foreach (Rum rum in FindObjectsOfType<Rum>().ToList())
+            foreach (Water water in FindObjectsOfType<Water>().ToList())
             {
-                if (rum.beingUsed == false)
+                if (water.beingUsed == false)
                 {
-                    float dist = (rum.transform.position - transform.position).magnitude;
+                    float dist = (water.transform.position - transform.position).magnitude;
                     if (dist < closestDist)
                     {
                         closestDist = dist;
-                        closestRum = rum;
+                        closestWater = water;
                     }
                 }
 
             }
-            return closestRum;
+            return closestWater;
         }
     }
 }

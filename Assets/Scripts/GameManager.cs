@@ -9,7 +9,7 @@ namespace Crewmates
     public class GameManager : MonoBehaviour
     {
         [SerializeField] MouseRaycast mouseRaycast;
-        [SerializeField] GameObject birdPoopPrefab;
+        [SerializeField] GameObject rumPrefab;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
@@ -27,8 +27,7 @@ namespace Crewmates
 
         private void SpawnBirdPoop(Vector3 mousePosition)
         {
-            int[] randomRotation = new int[] {0, 90, 180, 270};
-            Instantiate(birdPoopPrefab, mousePosition+Vector3.up/100, Quaternion.Euler(90,0, randomRotation[UnityEngine.Random.Range(0, randomRotation.Length)]));
+            Instantiate(rumPrefab, mousePosition + Vector3.up/5, Quaternion.Euler(-90,0,0));
         }
         public Vector3 GetRandomPosition()
         {

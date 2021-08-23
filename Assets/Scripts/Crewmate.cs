@@ -10,12 +10,16 @@ namespace Crewmates
         private GameManager gm;
         private CrewmateNavMesh navMesh;
         [SerializeField] private GameObject drinkRumPrefab;
+        [SerializeField] private GameObject drinkWaterPrefab;
 
         public GameObject myTask;
         private Vector3 wanderPosition;
-        private List<GameObject> personalTasks;
+        public List<GameObject> personalTasks;
 
         public float mood = 100;
+        public float thirst = 100;
+        public bool seekingRum = false;
+        public bool seekingWater = false;
 
         private void Awake()
         {
@@ -30,8 +34,6 @@ namespace Crewmates
         {
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
-            GameObject drinkRum = Instantiate(drinkRumPrefab);
-            personalTasks.Add(drinkRum);
         }
 
         public void MoveTo(Vector3 position, Action onArrivedAtPosition = null)
@@ -41,10 +43,37 @@ namespace Crewmates
 
         private void Update()
         {
+            /*
+            thirst -= Time.deltaTime;
+            if (thirst < 50)
+            {
+                if (seekingWater == false)
+                {
+                    seekingWater = true;
+                    GameObject drinkWater = Instantiate(drinkWaterPrefab);
+                    personalTasks.Add(drinkWater);
+                }
+            }
+            */
+            mood -= Time.deltaTime;
+            if (mood < 50)
+            {
+                if (seekingRum == false)
+                {
+                    GetRum();
+                }
+            }
             if (myTask == null)
             {
                 FindTask();
             }
+        }
+
+        public void GetRum()
+        {
+            seekingRum = true;
+            GameObject drinkRum = Instantiate(drinkRumPrefab);
+            personalTasks.Add(drinkRum);
         }
 
         private void FindTask()

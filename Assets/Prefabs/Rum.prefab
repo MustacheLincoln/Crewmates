@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8259105329291809740}
   - component: {fileID: 4986020372420123753}
   - component: {fileID: 7121616345143617699}
-  - component: {fileID: 7598460377956004296}
+  - component: {fileID: 7979038541633105421}
   m_Layer: 0
   m_Name: Rum
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7598460377956004296
+--- !u!114 &7979038541633105421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,7 +91,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8779182693499341174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b950fe76a5ef7e14491f0df5e9cf943d, type: 3}
+  m_Script: {fileID: 11500000, guid: 385aefacea1e32f40b5f5707d1a6fb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isStored: 0
+  beingUsed: 0

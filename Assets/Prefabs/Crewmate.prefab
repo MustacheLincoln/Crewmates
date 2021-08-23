@@ -147,5 +147,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drinkRumPrefab: {fileID: 7053563249324382947, guid: 77ee66f8972dfe74fa54d24786954b1f, type: 3}
+  drinkWaterPrefab: {fileID: 5111481995203118684, guid: 61c66865c389a8345ac707c72e870312, type: 3}
   myTask: {fileID: 0}
+  personalTasks: []
   mood: 100
+  thirst: 100
+  seekingRum: 0
+  seekingWater: 0

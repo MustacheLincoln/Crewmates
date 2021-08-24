@@ -34,6 +34,7 @@ namespace Crewmates
         {
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
+            name = gm.GenerateName();
         }
 
         public void MoveTo(Vector3 position, Action onArrivedAtPosition = null)

@@ -47,6 +47,14 @@ namespace Crewmates
             int[] randomRotation = new int[] { 0, 90, 180, 270 };
             return randomRotation[UnityEngine.Random.Range(0, randomRotation.Length)];
         }
+
+        public string GenerateName()
+        {
+            string[] firstName = new string[] { "John", "Bill" , "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
+            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck" };
+
+            return firstName[UnityEngine.Random.Range(0, firstName.Length)]+" "+lastName[UnityEngine.Random.Range(0, lastName.Length)];
+        }
     }
 
 }

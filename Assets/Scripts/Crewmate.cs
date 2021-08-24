@@ -37,49 +37,53 @@ namespace Crewmates
 
         private void Update()
         {
+            thirst -= Time.deltaTime;
+            if (myTask == null)
+                if (thirst < 50)
+                    GetConsumable(FindObjectsOfType<Water>());
             mood -= Time.deltaTime;
             if (myTask == null)
                 if (mood < 50)
-                    GetRum();
+                    GetConsumable(FindObjectsOfType<Rum>());
             if (myTask == null)
                 FindGlobalTask();
 
         }
 
-        public void GetRum()
+        public void GetConsumable(Array array)
         {
-            Rum rum = ClosestRum();
-            if (rum)
+            Consumable consumable = ClosestConsumable(array);
+            if (consumable)
             {
-                rum.beingUsed = true;
-                rum.RemoveTask();
-                myTask = rum.gameObject;
-                MoveTo(rum.gameObject.transform.position, () =>
+                consumable.beingUsed = true;
+                consumable.RemoveTask(consumable.gameObject);
+                myTask = consumable.gameObject;
+                MoveTo(consumable.gameObject.transform.position, () =>
                 {
-                    rum.Drank(this);
-                    Destroy(rum.gameObject);
+                    consumable.Consume(this);
+                    Destroy(consumable.gameObject);
                 });
             }
         }
 
-        private Rum ClosestRum()
+        private Consumable ClosestConsumable(Array array)
         {
-            Rum closestRum = null;
+            Consumable closestConsumable = null;
             float closestDist = Mathf.Infinity;
-            foreach (Rum rum in FindObjectsOfType<Rum>())
+            foreach (Consumable c in array)
             {
-                if (rum.beingUsed == false)
+                if (c.beingUsed == false)
                 {
-                    float dist = (rum.transform.position - transform.position).magnitude;
+                    float dist = (c.transform.position - transform.position).magnitude;
                     if (dist < closestDist)
                     {
                         closestDist = dist;
-                        closestRum = rum;
+                        closestConsumable = c;
                     }
                 }
 
             }
-            return closestRum;
+            return closestConsumable;
         }
 
         private void FindGlobalTask()

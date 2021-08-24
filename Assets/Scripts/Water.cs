@@ -6,19 +6,9 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Water : MonoBehaviour, ITask
+    public class Water : Consumable, ITask
     {
-        public bool isStored;
-        public bool beingUsed;
-
-        private GameManager gm;
-        private Crate storedIn;
-        private float moodBoost = 25;
-
-        private void Awake()
-        {
-            gm = FindObjectOfType<GameManager>();
-        }
+        private float thirstBoost = 25;
 
         private void Update()
         {
@@ -85,17 +75,11 @@ namespace Crewmates
             }
 
         }
-
-        public void RemoveTask()
-        {
-            gm.globalTasks.Remove(gameObject);
-        }
-
-        public void Drank(Crewmate crewmate)
+        public override void Consume(Crewmate crewmate)
         {
             if (storedIn)
                 storedIn.items--;
-            crewmate.mood += moodBoost;
+            crewmate.thirst += thirstBoost;
             Destroy(gameObject);
         }
     }

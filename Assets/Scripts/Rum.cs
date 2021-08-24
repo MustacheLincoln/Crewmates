@@ -8,7 +8,7 @@ namespace Crewmates
 {
     public class Rum : Consumable, ITask
     {
-        private float moodBoost = 25;
+        private float modifierDuration = 100;
 
         private void Start()
         {
@@ -85,7 +85,7 @@ namespace Crewmates
         {
             if (storedIn)
                 storedIn.items--;
-            crewmate.mood += moodBoost;
+            crewmate.drunkeness += modifierDuration;
             Destroy(gameObject);
         }
     }

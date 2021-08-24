@@ -8,7 +8,7 @@ namespace Crewmates
 {
     public class Water : Consumable, ITask
     {
-        private float thirstBoost = 25;
+        private float modifierDuration = 100;
 
         private void Update()
         {
@@ -79,7 +79,7 @@ namespace Crewmates
         {
             if (storedIn)
                 storedIn.items--;
-            crewmate.thirst += thirstBoost;
+            crewmate.hydration += modifierDuration;
             Destroy(gameObject);
         }
     }

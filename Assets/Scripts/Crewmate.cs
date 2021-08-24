@@ -13,8 +13,14 @@ namespace Crewmates
         public GameObject myTask;
         private Vector3 wanderPosition;
 
-        public float mood = 100;
-        public float thirst = 100;
+        public float baseMood = 50;
+        public float hydration = 100;
+        public float drunkeness = 0;
+
+        public bool thirsty = false;
+        public bool drunk = false;
+        public float moodModifiers = 0;
+
 
         private void Awake()
         {
@@ -37,13 +43,16 @@ namespace Crewmates
 
         private void Update()
         {
-            thirst -= Time.deltaTime;
+            hydration -= Time.deltaTime;
+            hydration = Mathf.Clamp(hydration, 0, Mathf.Infinity);
+            drunkeness -= Time.deltaTime;
+            drunkeness = Mathf.Clamp(drunkeness, 0, Mathf.Infinity);
+            Mood();
             if (myTask == null)
-                if (thirst < 50)
+                if (hydration < 50)
                     GetConsumable(FindObjectsOfType<Water>());
-            mood -= Time.deltaTime;
             if (myTask == null)
-                if (mood < 50)
+                if (Mood() < 50)
                     GetConsumable(FindObjectsOfType<Rum>());
             if (myTask == null)
                 FindGlobalTask();
@@ -153,6 +162,47 @@ namespace Crewmates
         public void ClearTask()
         {
             myTask = null;
+        }
+
+        public float Mood()
+        {
+            if (hydration <= 0)
+            {
+                if (thirsty == false)
+                {
+                    thirsty = true;
+                    moodModifiers -= 10;
+                }
+            }
+            else
+            {
+                if (thirsty == true)
+                {
+                    thirsty = false;
+                    moodModifiers += 10;
+                }
+            }
+
+            if (drunkeness > 0)
+            {
+                if (drunk == false)
+                {
+                    drunk = true;
+                    moodModifiers += 10;
+                }
+            }
+            else
+            {
+                if (drunk == true)
+                {
+                    drunk = false;
+                    moodModifiers -= 10;
+                }
+            }
+
+
+            float mood = baseMood + moodModifiers;
+            return mood;
         }
     }
 }

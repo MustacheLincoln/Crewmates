@@ -10,6 +10,8 @@ namespace Crewmates
     {
         [SerializeField] MouseRaycast mouseRaycast;
         [SerializeField] GameObject rumPrefab;
+        [SerializeField] GameObject cratePrefab;
+        [SerializeField] GameObject barrelPrefab;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
@@ -22,14 +24,24 @@ namespace Crewmates
             {
                 if (mouseRaycast.Walkable())
                 {
-                    SpawnBirdPoop(mouseRaycast.hitPosition);
+                    SpawnBarrel(mouseRaycast.hitPosition);
                 }
             }
         }
 
-        private void SpawnBirdPoop(Vector3 mousePosition)
+        private void SpawnBarrel(Vector3 mousePosition)
         {
-            Instantiate(rumPrefab, mousePosition + Vector3.up/5, Quaternion.Euler(-90,0,0));
+            Instantiate(barrelPrefab, mousePosition + new Vector3(0, .417f, 0), Quaternion.Euler(-90, 0, 0));
+        }
+
+        private void SpawnCrate(Vector3 mousePosition)
+        {
+            Instantiate(cratePrefab, mousePosition + new Vector3(0,.417f,0), Quaternion.identity);
+        }
+
+        private void SpawnRum(Vector3 mousePosition)
+        {
+            Instantiate(rumPrefab, mousePosition + new Vector3(0, .221f, 0), Quaternion.Euler(-90,0,0));
         }
         public Vector3 GetRandomPosition()
         {
@@ -52,7 +64,7 @@ namespace Crewmates
         public string GenerateName()
         {
             string[] firstName = new string[] { "John", "Bill" , "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
-            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck" };
+            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter" };
 
             return firstName[UnityEngine.Random.Range(0, firstName.Length)]+" "+lastName[UnityEngine.Random.Range(0, lastName.Length)];
         }

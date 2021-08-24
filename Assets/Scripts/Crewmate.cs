@@ -20,6 +20,7 @@ namespace Crewmates
         public bool thirsty = false;
         public bool drunk = false;
         public float moodModifiers = 0;
+        public float mood;
 
 
         private void Awake()
@@ -44,16 +45,12 @@ namespace Crewmates
 
         private void Update()
         {
-            hydration -= Time.deltaTime;
-            hydration = Mathf.Clamp(hydration, 0, Mathf.Infinity);
-            drunkeness -= Time.deltaTime;
-            drunkeness = Mathf.Clamp(drunkeness, 0, Mathf.Infinity);
             Mood();
             if (myTask == null)
-                if (hydration < 50)
+                if (hydration < 20)
                     GetConsumable(FindObjectsOfType<Water>());
             if (myTask == null)
-                if (Mood() < 50)
+                if (mood < 50)
                     GetConsumable(FindObjectsOfType<Rum>());
             if (myTask == null)
                 FindGlobalTask();
@@ -165,14 +162,17 @@ namespace Crewmates
             myTask = null;
         }
 
-        public float Mood()
+        public void Mood()
         {
+            hydration -= Time.deltaTime;
+            hydration = Mathf.Clamp(hydration, 0, Mathf.Infinity);
+            int thirstyModifier = 10;
             if (hydration <= 0)
             {
                 if (thirsty == false)
                 {
                     thirsty = true;
-                    moodModifiers -= 10;
+                    moodModifiers -= thirstyModifier;
                 }
             }
             else
@@ -180,16 +180,19 @@ namespace Crewmates
                 if (thirsty == true)
                 {
                     thirsty = false;
-                    moodModifiers += 10;
+                    moodModifiers += thirstyModifier;
                 }
             }
 
+            drunkeness -= Time.deltaTime;
+            drunkeness = Mathf.Clamp(drunkeness, 0, Mathf.Infinity);
+            int drunkModifier = 10;
             if (drunkeness > 0)
             {
                 if (drunk == false)
                 {
                     drunk = true;
-                    moodModifiers += 10;
+                    moodModifiers += drunkModifier;
                 }
             }
             else
@@ -197,13 +200,11 @@ namespace Crewmates
                 if (drunk == true)
                 {
                     drunk = false;
-                    moodModifiers -= 10;
+                    moodModifiers -= drunkModifier;
                 }
             }
 
-
-            float mood = baseMood + moodModifiers;
-            return mood;
+            mood = baseMood + moodModifiers;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Crewmates
         public GameObject myTask;
         private Vector3 wanderPosition;
 
-        public float baseMood = 50;
+        private float baseMood = 50;
         public float hydration = 100;
         public float drunkeness = 0;
 

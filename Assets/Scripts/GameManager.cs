@@ -13,6 +13,7 @@ namespace Crewmates
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
+        public List<Barrel> barrels;
         public List<Rum> rum;
 
         private void Update()

@@ -4,18 +4,17 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Crate : MonoBehaviour
+    public class Crate : Storage
     {
-        public int items = 0;
-        public int incomingItems = 0;
-        public int maxItems = 4;
-
         private GameManager gm;
 
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
             gm.crates.Add(this);
+            items = 0;
+            incomingItems = 0;
+            maxItems = 4;
         }
 
     }

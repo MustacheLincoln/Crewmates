@@ -8,8 +8,23 @@ namespace Crewmates
     public class MouseRaycast : MonoBehaviour
     {
         public Vector3 hitPosition;
+        public GameObject hitObject;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private LayerMask layerMask;
+
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, float.MaxValue))
+                {
+                    hitObject = hit.transform.gameObject;
+                }
+            }
+        }
 
         public bool Walkable()
         {

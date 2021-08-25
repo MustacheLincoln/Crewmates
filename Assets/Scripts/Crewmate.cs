@@ -208,6 +208,10 @@ namespace Crewmates
 
             mood = baseMood + moodModifiers;
         }
+        private void OnMouseUpAsButton()
+        {
+            gm.selected = this.gameObject;
+        }
     }
 }
 

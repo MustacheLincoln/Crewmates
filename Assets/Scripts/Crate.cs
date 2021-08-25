@@ -11,10 +11,15 @@ namespace Crewmates
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-            gm.crates.Add(this);
             items = 0;
             incomingItems = 0;
             maxItems = 4;
+            Ready();
+        }
+
+        public void Ready()
+        {
+            gm.crates.Add(this);
         }
 
     }

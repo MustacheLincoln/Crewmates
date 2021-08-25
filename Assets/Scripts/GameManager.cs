@@ -24,7 +24,7 @@ namespace Crewmates
             {
                 if (mouseRaycast.Walkable())
                 {
-                    SpawnBarrel(mouseRaycast.hitPosition);
+                    SpawnCrate(mouseRaycast.hitPosition);
                 }
             }
         }
@@ -36,12 +36,12 @@ namespace Crewmates
 
         private void SpawnCrate(Vector3 mousePosition)
         {
-            Instantiate(cratePrefab, mousePosition + new Vector3(0,.417f,0), Quaternion.identity);
+            Instantiate(cratePrefab, mousePosition + new Vector3(0, .417f, 0), Quaternion.Euler(-90, 0, 0));
         }
 
         private void SpawnRum(Vector3 mousePosition)
         {
-            Instantiate(rumPrefab, mousePosition + new Vector3(0, .221f, 0), Quaternion.Euler(-90,0,0));
+            Instantiate(rumPrefab, mousePosition + new Vector3(0, .221f, 0), Quaternion.Euler(-90, 0, 0));
         }
         public Vector3 GetRandomPosition()
         {
@@ -63,10 +63,10 @@ namespace Crewmates
 
         public string GenerateName()
         {
-            string[] firstName = new string[] { "John", "Bill" , "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
+            string[] firstName = new string[] { "John", "Bill", "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
             string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter" };
 
-            return firstName[UnityEngine.Random.Range(0, firstName.Length)]+" "+lastName[UnityEngine.Random.Range(0, lastName.Length)];
+            return firstName[UnityEngine.Random.Range(0, firstName.Length)] + " " + lastName[UnityEngine.Random.Range(0, lastName.Length)];
         }
     }
 

@@ -28,10 +28,10 @@ namespace Crewmates
 
         private void Update()
         {
-            navMeshAgent.speed = speed; 
-            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.3)
+            navMeshAgent.speed = speed;
+            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.2)
             {
-                if(isMoving == true)
+                if (isMoving == true)
                 {
                     onArrivedAtPosition?.Invoke();
                     isMoving = false;
@@ -39,7 +39,7 @@ namespace Crewmates
             }
             else
                 if (isMoving == false)
-                    isMoving = true;
+                isMoving = true;
         }
 
         internal void ChangePriority(int priority)

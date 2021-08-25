@@ -12,9 +12,9 @@ namespace Crewmates
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-            gm.barrels.Add(this);
             maxItems = 8;
             items = maxItems;
+            Ready();
         }
 
         private void Start()
@@ -24,6 +24,11 @@ namespace Crewmates
                 GameObject water = Instantiate(waterPrefab, transform.GetChild(0).transform.position, Quaternion.identity, transform.GetChild(0).transform);
                 water.GetComponent<Water>().storedIn = this;
             }
+        }
+
+        public void Ready()
+        {
+            gm.barrels.Add(this);
         }
     }
 }

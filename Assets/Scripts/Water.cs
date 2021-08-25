@@ -8,7 +8,7 @@ namespace Crewmates
 {
     public class Water : Consumable
     {
-        private float modifierDuration = 100;
+        private float modifierDuration = 10;
 
         public override void Consume(Crewmate crewmate)
         {

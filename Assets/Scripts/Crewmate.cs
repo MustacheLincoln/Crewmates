@@ -136,7 +136,7 @@ namespace Crewmates
 
         private GameObject ClosestTask()
         {
-            GameObject closestTask= null;
+            GameObject closestTask = null;
             float closestDist = Mathf.Infinity;
             foreach (GameObject task in gm.globalTasks.ToList())
             {

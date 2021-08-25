@@ -20,7 +20,8 @@ namespace Crewmates
         {
             for (int i = 0; i < maxItems; i++)
             {
-                GameObject water = Instantiate(waterPrefab, transform.GetChild(0).transform.position, Quaternion.identity, transform.GetChild(0).transform);
+                Transform waterLevel = transform.Find("WaterLevel");
+                GameObject water = Instantiate(waterPrefab, waterLevel.position, Quaternion.identity, waterLevel);
                 water.GetComponent<Water>().storedIn = this;
             }
         }

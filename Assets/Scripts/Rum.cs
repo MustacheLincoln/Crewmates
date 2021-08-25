@@ -10,26 +10,24 @@ namespace Crewmates
     {
         private float modifierDuration = 100;
 
-        private void Start()
-        {
-            gm.rum.Add(this);
-        }
-
         private void Update()
         {
-            if (gm.globalTasks.Contains(gameObject) == false)
+            if (gm.placing != this.gameObject)
             {
-                if (!beingUsed)
+                if (gm.globalTasks.Contains(gameObject) == false)
                 {
-                    if (!isStored)
+                    if (!beingUsed)
                     {
-                        if (gm.crates.Count > 0)
+                        if (!isStored)
                         {
-                            foreach (Crate crate in gm.crates)
+                            if (gm.crates.Count > 0)
                             {
-                                if (crate.items + crate.incomingItems < crate.maxItems)
-                                    if (gm.globalTasks.Contains(gameObject) == false)
-                                        gm.globalTasks.Add(gameObject);
+                                foreach (Crate crate in gm.crates)
+                                {
+                                    if (crate.items + crate.incomingItems < crate.maxItems)
+                                        if (gm.globalTasks.Contains(gameObject) == false)
+                                            gm.globalTasks.Add(gameObject);
+                                }
                             }
                         }
                     }

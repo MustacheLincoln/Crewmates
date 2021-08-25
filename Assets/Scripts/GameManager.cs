@@ -9,15 +9,11 @@ namespace Crewmates
     public class GameManager : MonoBehaviour
     {
         [SerializeField] MouseRaycast mouseRaycast;
-        [SerializeField] GameObject rumPrefab;
-        [SerializeField] GameObject cratePrefab;
-        [SerializeField] GameObject barrelPrefab;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
         public List<Barrel> barrels;
-        public List<Rum> rum;
-        private GameObject placing;
+        public GameObject placing;
 
         private void Update()
         {
@@ -27,28 +23,15 @@ namespace Crewmates
                 {
                     placing.transform.position = mouseRaycast.hitPosition;
                     if (Input.GetMouseButtonDown(0))
-                    {
-                        placing.GetComponent<Storage>().Ready();
+                    {   
+                        if (placing.GetComponent<Storage>())
+                            placing.GetComponent<Storage>().Ready();
                         placing = null;
                     }
                 }
             }
         }
 
-        private void SpawnBarrel(Vector3 mousePosition)
-        {
-            Instantiate(barrelPrefab, mousePosition + new Vector3(0, .417f, 0), Quaternion.Euler(-90, 0, 0));
-        }
-
-        private void SpawnCrate(Vector3 mousePosition)
-        {
-            Instantiate(cratePrefab, mousePosition + new Vector3(0, .417f, 0), Quaternion.Euler(-90, 0, 0));
-        }
-
-        private void SpawnRum(Vector3 mousePosition)
-        {
-            Instantiate(rumPrefab, mousePosition + new Vector3(0, .221f, 0), Quaternion.Euler(-90, 0, 0));
-        }
         public Vector3 GetRandomPosition()
         {
             NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
@@ -77,7 +60,13 @@ namespace Crewmates
 
         public void Place(GameObject gameObject)
         {
-            placing = Instantiate(gameObject);
+            if (placing == null)
+                placing = Instantiate(gameObject);
+            else
+            {
+                Destroy(placing);
+                placing = Instantiate(gameObject);
+            }
         }
     }
 

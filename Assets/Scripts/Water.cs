@@ -12,8 +12,8 @@ namespace Crewmates
 
         public override void Consume(Crewmate crewmate)
         {
-            if (storedIn)
-                storedIn.items--;
+            storedIn.items--;
+            storedIn.transform.GetChild(0).transform.position -= new Vector3(0, .1f, 0);
             crewmate.hydration += modifierDuration;
             Destroy(gameObject);
         }

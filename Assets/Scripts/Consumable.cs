@@ -7,7 +7,7 @@ namespace Crewmates
     public abstract class Consumable : MonoBehaviour
     {
         public bool isStored;
-        public Crate storedIn;
+        public Storage storedIn;
         public bool beingUsed;
         public GameManager gm;
 

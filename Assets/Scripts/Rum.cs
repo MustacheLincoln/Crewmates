@@ -57,12 +57,13 @@ namespace Crewmates
                         crate.incomingItems++;
                         crewmate.MoveTo(transform.position, () =>
                         {
-                            transform.SetParent(crewmate.transform, true);
+                            transform.SetParent(crewmate.transform);
                             crewmate.MoveTo(crate.transform.position, () =>
                             {
                                 crate.incomingItems--;
                                 crate.items++;
-                                transform.SetParent(crate.transform,true);
+                                transform.SetParent(crate.transform);
+                                transform.position = CratePosition(crate);
                                 storedIn = crate;
                                 isStored = true; 
                                 beingUsed = false;
@@ -79,6 +80,22 @@ namespace Crewmates
                 beingUsed = false;
             }
 
+        }
+
+        private Vector3 CratePosition(Crate crate)
+        {
+            switch (crate.items)
+            {
+                case 1:
+                    return crate.transform.position + (Vector3.left + Vector3.forward) / 4;
+                case 2:
+                    return crate.transform.position + (Vector3.right + Vector3.forward) / 4;
+                case 3:
+                    return crate.transform.position + (Vector3.left + Vector3.back) / 4;
+                case 4:
+                    return crate.transform.position + (Vector3.right + Vector3.back) / 4;
+            }
+            return crate.transform.position;
         }
 
         public override void Consume(Crewmate crewmate)

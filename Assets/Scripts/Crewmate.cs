@@ -193,6 +193,7 @@ namespace Crewmates
                 {
                     drunk = true;
                     moodModifiers += drunkModifier;
+                    navMesh.speed = navMesh.speed / 2;
                 }
             }
             else
@@ -201,6 +202,7 @@ namespace Crewmates
                 {
                     drunk = false;
                     moodModifiers -= drunkModifier;
+                    navMesh.speed = navMesh.speed * 2;
                 }
             }
 

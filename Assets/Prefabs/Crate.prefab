@@ -95,4 +95,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: 0
+  incomingItems: 0
   maxItems: 4

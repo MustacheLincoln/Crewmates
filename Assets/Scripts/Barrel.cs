@@ -21,9 +21,9 @@ namespace Crewmates
         {
             for (int i = 0; i < maxItems; i++)
             {
-                Instantiate(waterPrefab, transform);
+                GameObject water = Instantiate(waterPrefab, transform.GetChild(0).transform.position, Quaternion.identity, transform.GetChild(0).transform);
+                water.GetComponent<Water>().storedIn = this;
             }
         }
-
     }
 }

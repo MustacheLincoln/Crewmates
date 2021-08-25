@@ -9,11 +9,14 @@ namespace Crewmates
     public class CrewmateNavMesh : MonoBehaviour
     {
         public bool isMoving = false;
+        private float baseSpeed = 3.5f;
+        public float speed;
         private Action onArrivedAtPosition;
         private NavMeshAgent navMeshAgent;
 
         private void Awake()
         {
+            speed = baseSpeed;
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
         internal void MoveTo(Vector3 position, Action onArrivedAtPosition)
@@ -25,7 +28,8 @@ namespace Crewmates
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1)
+            navMeshAgent.speed = speed; 
+            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.3)
             {
                 if(isMoving == true)
                 {

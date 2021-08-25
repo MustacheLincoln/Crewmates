@@ -5,13 +5,14 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Crewmate : MonoBehaviour
+    public class Crewmate : MonoBehaviour, IReadiable
     {
         private GameManager gm;
         private CrewmateNavMesh navMesh;
 
         public GameObject myTask;
         private Vector3 wanderPosition;
+        private bool ready = false;
 
         private float baseMood = 50;
         public float hydration = 100;
@@ -26,7 +27,6 @@ namespace Crewmates
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-            gm.crewmates.Add(this);
             navMesh = GetComponent<CrewmateNavMesh>();
             ChangeWanderPosition();
         }
@@ -45,16 +45,18 @@ namespace Crewmates
 
         private void Update()
         {
-            Mood();
-            if (myTask == null)
-                if (hydration < 20)
-                    GetConsumable(FindObjectsOfType<Water>());
-            if (myTask == null)
-                if (mood < 50)
-                    GetConsumable(FindObjectsOfType<Rum>());
-            if (myTask == null)
-                FindGlobalTask();
-
+            if (ready)
+            {
+                Mood();
+                if (myTask == null)
+                    if (hydration < 20)
+                        GetConsumable(FindObjectsOfType<Water>());
+                if (myTask == null)
+                    if (mood < 50)
+                        GetConsumable(FindObjectsOfType<Rum>());
+                if (myTask == null)
+                    FindGlobalTask();
+            }
         }
 
         public void GetConsumable(Array array)
@@ -208,9 +210,13 @@ namespace Crewmates
 
             mood = baseMood + moodModifiers;
         }
-        private void OnMouseUpAsButton()
+
+        public void Ready()
         {
-            gm.selected = this.gameObject;
+            ready = true;
+            transform.Find("Mesh").position += Vector3.down;
+            navMesh.Enable();
+            gm.crewmates.Add(this);
         }
     }
 }

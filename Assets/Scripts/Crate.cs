@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Crate : Storage
+    public class Crate : Storage, IReadiable
     {
         private GameManager gm;
 
@@ -16,7 +16,7 @@ namespace Crewmates
             maxItems = 4;
         }
 
-        public override void Ready()
+        public void Ready()
         {
             gm.crates.Add(this);
         }

@@ -7,11 +7,8 @@ namespace Crewmates
 {
     public class UI : MonoBehaviour
     {
-        private GameManager gm;
+        [SerializeField] private GameManager gm;
+        [SerializeField] private MouseRaycast mouseRaycast;
 
-        private void Awake()
-        {
-            gm = FindObjectOfType<GameManager>();
-        }
     }
 }

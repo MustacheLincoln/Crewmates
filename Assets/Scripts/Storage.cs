@@ -7,6 +7,4 @@ public abstract class Storage : MonoBehaviour
     public int items;
     public int incomingItems;
     public int maxItems;
-
-    public abstract void Ready();
 }

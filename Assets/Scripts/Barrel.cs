@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Barrel : Storage
+    public class Barrel : Storage, IReadiable
     {
         private GameManager gm;
         [SerializeField] private GameObject waterPrefab;
@@ -26,7 +26,7 @@ namespace Crewmates
             }
         }
 
-        public override void Ready()
+        public void Ready()
         {
             gm.barrels.Add(this);
         }

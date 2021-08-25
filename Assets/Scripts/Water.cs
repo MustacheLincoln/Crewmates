@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Water : Consumable
+    public class Water : Consumable, IReadiable
     {
         private float modifierDuration = 100;
 
@@ -17,6 +17,11 @@ namespace Crewmates
             waterLevel.position -= new Vector3(0, .1f, 0);
             crewmate.hydration += modifierDuration;
             Destroy(gameObject);
+        }
+
+        public void Ready()
+        {
+
         }
     }
 }

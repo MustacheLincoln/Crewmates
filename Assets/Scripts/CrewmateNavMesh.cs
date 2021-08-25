@@ -18,6 +18,7 @@ namespace Crewmates
         {
             speed = baseSpeed;
             navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
         }
         internal void MoveTo(Vector3 position, Action onArrivedAtPosition)
         {
@@ -46,6 +47,12 @@ namespace Crewmates
         {
             navMeshAgent.avoidancePriority = priority;
         }
+
+        public void Enable()
+        {
+            navMeshAgent.enabled = true;
+        }
+
     }
 }
 

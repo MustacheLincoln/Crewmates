@@ -15,6 +15,7 @@ namespace Crewmates
         public List<Barrel> barrels;
         public GameObject placing;
         public GameObject selected;
+        private GameObject tempSelected;
 
         private void Update()
         {
@@ -25,19 +26,30 @@ namespace Crewmates
                     placing.transform.position = mouseRaycast.hitPosition;
                     if (Input.GetMouseButtonUp(0))
                     {   
-                        if (placing.GetComponent<Storage>())
-                            placing.GetComponent<Storage>().Ready();
+                        placing.GetComponent<IReadiable>().Ready();
                         placing = null;
                     }
                 }
             }
-
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (mouseRaycast.hitObject.transform.parent)
+                    tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
+            }
             if (Input.GetMouseButtonUp(0))
             {
                 if (selected)
                 {
-                    if (mouseRaycast.hitObject != selected)
-                        selected = null;
+                    selected = null;
+                }
+                if (tempSelected)
+                {
+                    if (mouseRaycast.hitObject.transform.parent)
+                        if (mouseRaycast.hitObject.transform.parent.gameObject == tempSelected)
+                        {
+                            selected = mouseRaycast.hitObject.transform.parent.gameObject;
+                            tempSelected = null;
+                        }
                 }
             }
         }

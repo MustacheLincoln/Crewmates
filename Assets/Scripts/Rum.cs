@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace Crewmates
 {
-    public class Rum : Consumable, ITask
+    public class Rum : Consumable, ITask, IReadiable
     {
         private float modifierDuration = 100;
+        private bool ready = false;
 
         private void Update()
         {
-            if (gm.placing != this.gameObject)
+            if (ready)
             {
                 if (gm.globalTasks.Contains(gameObject) == false)
                 {
@@ -32,7 +33,7 @@ namespace Crewmates
                         }
                     }
                 }
-            }  
+            }
         }
 
         public void Task(Crewmate crewmate)
@@ -102,6 +103,11 @@ namespace Crewmates
                 storedIn.items--;
             crewmate.drunkeness += modifierDuration;
             Destroy(gameObject);
+        }
+
+        public void Ready()
+        {
+            ready = true;
         }
     }
 }

@@ -14,7 +14,6 @@ namespace Crewmates
             gm = FindObjectOfType<GameManager>();
             maxItems = 8;
             items = maxItems;
-            Ready();
         }
 
         private void Start()
@@ -26,7 +25,7 @@ namespace Crewmates
             }
         }
 
-        public void Ready()
+        public override void Ready()
         {
             gm.barrels.Add(this);
         }

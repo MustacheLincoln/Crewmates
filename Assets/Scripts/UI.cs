@@ -1,25 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Crewmates
 {
-    public class Crate : Storage
+    public class UI : MonoBehaviour
     {
         private GameManager gm;
 
         private void Awake()
         {
             gm = FindObjectOfType<GameManager>();
-            items = 0;
-            incomingItems = 0;
-            maxItems = 4;
         }
-
-        public override void Ready()
-        {
-            gm.crates.Add(this);
-        }
-
     }
 }

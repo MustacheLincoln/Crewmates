@@ -17,14 +17,20 @@ namespace Crewmates
         public List<Crate> crates;
         public List<Barrel> barrels;
         public List<Rum> rum;
+        private GameObject placing;
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (placing)
             {
                 if (mouseRaycast.Walkable())
                 {
-                    SpawnCrate(mouseRaycast.hitPosition);
+                    placing.transform.position = mouseRaycast.hitPosition;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        placing.GetComponent<Storage>().Ready();
+                        placing = null;
+                    }
                 }
             }
         }
@@ -67,6 +73,11 @@ namespace Crewmates
             string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter" };
 
             return firstName[UnityEngine.Random.Range(0, firstName.Length)] + " " + lastName[UnityEngine.Random.Range(0, lastName.Length)];
+        }
+
+        public void Place(GameObject gameObject)
+        {
+            placing = Instantiate(gameObject);
         }
     }
 

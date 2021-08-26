@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 namespace Crewmates
 {
@@ -11,8 +12,10 @@ namespace Crewmates
         private CrewmateNavMesh navMesh;
 
         public GameObject myTask;
+        public TMP_Text nameText;
         private Vector3 wanderPosition;
         private bool ready = false;
+        private bool mousedOver;
 
         private float baseMood = 50;
         public float hydration = 100;
@@ -36,6 +39,8 @@ namespace Crewmates
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
             name = gm.GenerateName();
+            nameText.text = name;
+            nameText.enabled = false;
         }
 
         public void MoveTo(Vector3 position, Action onArrivedAtPosition = null)
@@ -47,6 +52,7 @@ namespace Crewmates
         {
             if (ready)
             {
+                nameText.enabled = (mousedOver == true || gm.selected == this.gameObject);
                 Mood();
                 if (myTask == null)
                     if (hydration < 20)
@@ -217,6 +223,16 @@ namespace Crewmates
             transform.Find("Mesh").position += Vector3.down;
             navMesh.Enable();
             gm.crewmates.Add(this);
+        }
+
+        internal void MouseEnter()
+        {
+            mousedOver = true;
+        }
+
+        internal void MouseExit()
+        {
+            mousedOver = false;
         }
     }
 }

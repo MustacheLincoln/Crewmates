@@ -9,15 +9,15 @@ namespace Crewmates
         public bool isStored;
         public Storage storedIn;
         public bool beingUsed;
-        public GameManager gm;
+        public GameManager gameManager;
 
         private void Awake()
         {
-            gm = FindObjectOfType<GameManager>();
+            gameManager = FindObjectOfType<GameManager>();
         }
         public void RemoveTask(GameObject consumable)
         {
-            gm.globalTasks.Remove(consumable);
+            gameManager.globalTasks.Remove(consumable);
         }
 
         public abstract void Consume(Crewmate crewmate);

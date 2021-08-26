@@ -6,11 +6,11 @@ namespace Crewmates
 {
     public class Crate : Storage, IReadiable
     {
-        private GameManager gm;
+        private GameManager gameManager;
 
         private void Awake()
         {
-            gm = FindObjectOfType<GameManager>();
+            gameManager = FindObjectOfType<GameManager>();
             items = 0;
             incomingItems = 0;
             maxItems = 4;
@@ -18,7 +18,7 @@ namespace Crewmates
 
         public void Ready()
         {
-            gm.crates.Add(this);
+            gameManager.crates.Add(this);
         }
 
     }

@@ -47,14 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480ba9c46350fd24094614458777a386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moodModifiers: {fileID: 0}
   myTask: {fileID: 0}
   nameText: {fileID: 1023234379096139539}
   hydration: 100
-  drunkeness: 0
-  thirsty: 0
-  drunk: 0
-  moodModifiers: 0
+  modifiers: 0
   mood: 0
+  modifierDescriptions: []
 --- !u!195 &8004069532866053215
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -447,4 +446,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42279d71849d81342b145c8801f627cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}

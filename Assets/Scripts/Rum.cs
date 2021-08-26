@@ -8,26 +8,25 @@ namespace Crewmates
 {
     public class Rum : Consumable, ITask, IReadiable
     {
-        private float modifierDuration = 100;
         private bool ready = false;
 
         private void Update()
         {
             if (ready)
             {
-                if (gm.globalTasks.Contains(gameObject) == false)
+                if (gameManager.globalTasks.Contains(gameObject) == false)
                 {
                     if (!beingUsed)
                     {
                         if (!isStored)
                         {
-                            if (gm.crates.Count > 0)
+                            if (gameManager.crates.Count > 0)
                             {
-                                foreach (Crate crate in gm.crates)
+                                foreach (Crate crate in gameManager.crates)
                                 {
                                     if (crate.items + crate.incomingItems < crate.maxItems)
-                                        if (gm.globalTasks.Contains(gameObject) == false)
-                                            gm.globalTasks.Add(gameObject);
+                                        if (gameManager.globalTasks.Contains(gameObject) == false)
+                                            gameManager.globalTasks.Add(gameObject);
                                 }
                             }
                         }
@@ -39,8 +38,8 @@ namespace Crewmates
         public void Task(Crewmate crewmate)
         {
             beingUsed = true;
-            List<Crate> openCrates = new List<Crate>(gm.crates);
-            foreach (Crate crate in gm.crates)
+            List<Crate> openCrates = new List<Crate>(gameManager.crates);
+            foreach (Crate crate in gameManager.crates)
             {
                 if (crate.items + crate.incomingItems >= crate.maxItems)
                     openCrates.Remove(crate);
@@ -101,7 +100,7 @@ namespace Crewmates
         {
             if (storedIn)
                 storedIn.items--;
-            crewmate.drunkeness += modifierDuration;
+            crewmate.drunk.Begin();
             Destroy(gameObject);
         }
 

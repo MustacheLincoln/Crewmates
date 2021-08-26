@@ -8,7 +8,7 @@ namespace Crewmates
 {
     public class Crewmate : MonoBehaviour, IReadiable
     {
-        private GameManager gm;
+        private GameManager gameManager;
         private CrewmateNavMesh navMesh;
 
         public GameObject myTask;
@@ -19,18 +19,19 @@ namespace Crewmates
 
         private float baseMood = 50;
         public float hydration = 100;
-        public float drunkeness = 0;
 
-        public bool thirsty = false;
-        public bool drunk = false;
-        public float moodModifiers = 0;
+        public float modifiers = 0;
         public float mood;
-        public List<string> statuses;
+        public List<string> modifierDescriptions;
 
+        public Drunk drunk;
+        public Thirsty thirsty;
 
         private void Awake()
         {
-            gm = FindObjectOfType<GameManager>();
+            drunk = gameObject.AddComponent<Drunk>();
+            thirsty = gameObject.AddComponent<Thirsty>();
+            gameManager = FindObjectOfType<GameManager>();
             navMesh = GetComponent<CrewmateNavMesh>();
             ChangeWanderPosition();
         }
@@ -39,7 +40,7 @@ namespace Crewmates
         {
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
-            name = gm.GenerateName();
+            name = gameManager.GenerateName();
             nameText.text = name;
             nameText.enabled = false;
         }
@@ -53,7 +54,7 @@ namespace Crewmates
         {
             if (ready)
             {
-                nameText.enabled = (mousedOver == true || gm.selected == this.gameObject);
+                nameText.enabled = (mousedOver == true || gameManager.selected == this.gameObject);
                 Mood();
                 if (myTask == null)
                     if (hydration < 20)
@@ -105,7 +106,7 @@ namespace Crewmates
         private void FindGlobalTask()
         {
             GameObject task;
-            if (gm.globalTasks.Count > 0)
+            if (gameManager.globalTasks.Count > 0)
             {
                 task = ClosestTask();
                 if (IsClosestCrewmate(task))
@@ -120,7 +121,7 @@ namespace Crewmates
         private void SetTask(GameObject task)
         {
             myTask = task;
-            gm.globalTasks.Remove(myTask);
+            gameManager.globalTasks.Remove(myTask);
             myTask.GetComponent<ITask>().Task(this);
         }
 
@@ -128,7 +129,7 @@ namespace Crewmates
         {
             Crewmate closestCrewmate = null;
             float closestDist = Mathf.Infinity;
-            foreach (Crewmate crewmate in gm.crewmates)
+            foreach (Crewmate crewmate in gameManager.crewmates)
             {
                 if (crewmate.myTask == null)
                 {
@@ -147,7 +148,7 @@ namespace Crewmates
         {
             GameObject closestTask = null;
             float closestDist = Mathf.Infinity;
-            foreach (GameObject task in gm.globalTasks.ToList())
+            foreach (GameObject task in gameManager.globalTasks.ToList())
             {
                 float dist = (task.transform.position - transform.position).magnitude;
                 if (dist < closestDist)
@@ -161,7 +162,7 @@ namespace Crewmates
 
         private void ChangeWanderPosition()
         {
-            wanderPosition = gm.GetRandomPosition();
+            wanderPosition = gameManager.GetRandomPosition();
             Invoke("ChangeWanderPosition", UnityEngine.Random.Range(2, 8));
         }
 
@@ -175,47 +176,12 @@ namespace Crewmates
         {
             hydration -= Time.deltaTime;
             hydration = Mathf.Clamp(hydration, 0, Mathf.Infinity);
-            int thirstyModifier = 10;
             if (hydration <= 0)
-            {
-                if (!statuses.Contains("Thirsty"))
-                {
-                    statuses.Add("Thirsty");
-                    moodModifiers -= thirstyModifier;
-                }
-            }
+                thirsty.Begin();
             else
-            {
-                if (statuses.Contains("Thirsty"))
-                {
-                    statuses.Remove("Thirsty");
-                    moodModifiers += thirstyModifier;
-                }
-            }
+                thirsty.End();
 
-            drunkeness -= Time.deltaTime;
-            drunkeness = Mathf.Clamp(drunkeness, 0, Mathf.Infinity);
-            int drunkModifier = 10;
-            if (drunkeness > 0)
-            {
-                if (!statuses.Contains("Drunk"))
-                {
-                    statuses.Add("Drunk");
-                    moodModifiers += drunkModifier;
-                    navMesh.speed = navMesh.speed / 2;
-                }
-            }
-            else
-            {
-                if (statuses.Contains("Drunk"))
-                {
-                    statuses.Remove("Drunk");
-                    moodModifiers -= drunkModifier;
-                    navMesh.speed = navMesh.speed * 2;
-                }
-            }
-
-            mood = baseMood + moodModifiers;
+            mood = baseMood + modifiers;
         }
 
         public void Ready()
@@ -223,7 +189,7 @@ namespace Crewmates
             ready = true;
             transform.Find("Mesh").position += Vector3.down;
             navMesh.Enable();
-            gm.crewmates.Add(this);
+            gameManager.crewmates.Add(this);
         }
 
         internal void MouseEnter()

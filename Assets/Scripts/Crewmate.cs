@@ -25,6 +25,7 @@ namespace Crewmates
         public bool drunk = false;
         public float moodModifiers = 0;
         public float mood;
+        public List<string> statuses;
 
 
         private void Awake()
@@ -177,17 +178,17 @@ namespace Crewmates
             int thirstyModifier = 10;
             if (hydration <= 0)
             {
-                if (thirsty == false)
+                if (!statuses.Contains("Thirsty"))
                 {
-                    thirsty = true;
+                    statuses.Add("Thirsty");
                     moodModifiers -= thirstyModifier;
                 }
             }
             else
             {
-                if (thirsty == true)
+                if (statuses.Contains("Thirsty"))
                 {
-                    thirsty = false;
+                    statuses.Remove("Thirsty");
                     moodModifiers += thirstyModifier;
                 }
             }
@@ -197,18 +198,18 @@ namespace Crewmates
             int drunkModifier = 10;
             if (drunkeness > 0)
             {
-                if (drunk == false)
+                if (!statuses.Contains("Drunk"))
                 {
-                    drunk = true;
+                    statuses.Add("Drunk");
                     moodModifiers += drunkModifier;
                     navMesh.speed = navMesh.speed / 2;
                 }
             }
             else
             {
-                if (drunk == true)
+                if (statuses.Contains("Drunk"))
                 {
-                    drunk = false;
+                    statuses.Remove("Drunk");
                     moodModifiers -= drunkModifier;
                     navMesh.speed = navMesh.speed * 2;
                 }

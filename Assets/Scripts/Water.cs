@@ -21,7 +21,7 @@ namespace Crewmates
 
         public void Ready()
         {
-
+            beingUsed = false;
         }
     }
 }

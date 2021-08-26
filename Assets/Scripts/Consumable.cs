@@ -8,12 +8,13 @@ namespace Crewmates
     {
         public bool isStored;
         public Storage storedIn;
-        public bool beingUsed;
+        public bool beingUsed = true;
         public GameManager gameManager;
 
         private void Awake()
         {
             gameManager = FindObjectOfType<GameManager>();
+            beingUsed = true;
         }
         public void RemoveTask(GameObject consumable)
         {

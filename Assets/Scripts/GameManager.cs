@@ -13,6 +13,8 @@ namespace Crewmates
         public List<GameObject> globalTasks;
         public List<Crate> crates;
         public List<Barrel> barrels;
+        public List<Rum> rum;
+        public List<Water> water;
         public GameObject placing;
         public GameObject selected;
         private GameObject tempSelected;

@@ -8,26 +8,21 @@ namespace Crewmates
 {
     public class Rum : Consumable, ITask, IReadiable
     {
-        private bool ready = false;
-
         private void Update()
         {
-            if (ready)
+            if (gameManager.globalTasks.Contains(gameObject) == false)
             {
-                if (gameManager.globalTasks.Contains(gameObject) == false)
+                if (!beingUsed)
                 {
-                    if (!beingUsed)
+                    if (!isStored)
                     {
-                        if (!isStored)
+                        if (gameManager.crates.Count > 0)
                         {
-                            if (gameManager.crates.Count > 0)
+                            foreach (Crate crate in gameManager.crates)
                             {
-                                foreach (Crate crate in gameManager.crates)
-                                {
-                                    if (crate.items + crate.incomingItems < crate.maxItems)
-                                        if (gameManager.globalTasks.Contains(gameObject) == false)
-                                            gameManager.globalTasks.Add(gameObject);
-                                }
+                                if (crate.items + crate.incomingItems < crate.maxItems)
+                                    if (gameManager.globalTasks.Contains(gameObject) == false)
+                                        gameManager.globalTasks.Add(gameObject);
                             }
                         }
                     }
@@ -106,7 +101,7 @@ namespace Crewmates
 
         public void Ready()
         {
-            ready = true;
+            beingUsed = false;
         }
     }
 }

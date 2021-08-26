@@ -8,16 +8,15 @@ namespace Crewmates
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] MouseRaycast mouseRaycast;
+        [SerializeField] private MouseRaycast mouseRaycast;
+        [SerializeField] private UI UI;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
-        public List<Barrel> barrels;
-        public List<Rum> rum;
-        public List<Water> water;
         public GameObject placing;
         public GameObject selected;
         private GameObject tempSelected;
+        public GameObject rightClicking;
 
         private void Update()
         {
@@ -35,23 +34,37 @@ namespace Crewmates
             }
             if (Input.GetMouseButtonDown(0))
             {
+                tempSelected = null;
                 if (mouseRaycast.hitObject.transform.parent)
-                    tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
+                    if (mouseRaycast.hitObject.transform.parent.GetComponent<Crewmate>())
+                        tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
             }
             if (Input.GetMouseButtonUp(0))
             {
-                if (selected)
+                if (rightClicking)
                 {
-                    selected = null;
+                    rightClicking = null;
+                    tempSelected = null;
+                    return;
                 }
+                if (selected)
+                    selected = null;
                 if (tempSelected)
+                    if (mouseRaycast.hitObject.transform.parent.gameObject == tempSelected)
+                    {
+                        selected = mouseRaycast.hitObject.transform.parent.gameObject;
+                        tempSelected = null;
+                    }
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (rightClicking)
+                    rightClicking = null;
+                if (mouseRaycast.hitObject.transform.parent)
                 {
-                    if (mouseRaycast.hitObject.transform.parent)
-                        if (mouseRaycast.hitObject.transform.parent.gameObject == tempSelected)
-                        {
-                            selected = mouseRaycast.hitObject.transform.parent.gameObject;
-                            tempSelected = null;
-                        }
+                    rightClicking = mouseRaycast.hitObject.transform.parent.gameObject;
+                    UI.ContextMenu(Input.mousePosition, rightClicking);
                 }
             }
         }
@@ -77,7 +90,7 @@ namespace Crewmates
         public string GenerateName()
         {
             string[] firstName = new string[] { "Henry", "John", "Bill", "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
-            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter", "Addams" };
+            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter", "Addams", "Robinson" };
 
             return firstName[UnityEngine.Random.Range(0, firstName.Length)] + " " + lastName[UnityEngine.Random.Range(0, lastName.Length)];
         }

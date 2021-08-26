@@ -28,7 +28,6 @@ namespace Crewmates
 
         public void Ready()
         {
-            gameManager.barrels.Add(this);
             var water = GetComponentsInChildren<Water>();
             foreach (Water w in water)
                 w.Ready();

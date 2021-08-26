@@ -11,7 +11,9 @@ namespace Crewmates
         [SerializeField] private GameManager gameManager;
         [SerializeField] private MouseRaycast mouseRaycast;
         [SerializeField] private GameObject statusPanel;
+        [SerializeField] private GameObject contextPanel;
         [SerializeField] private TMP_Text statusText;
+        [SerializeField] private TMP_Text contextText;
 
         private void Awake()
         {
@@ -37,6 +39,13 @@ namespace Crewmates
                     + descriptions
                     ) ;
             }
+        }
+
+        public void ContextMenu(Vector3 mousePos, GameObject obj)
+        {
+            contextPanel.transform.position = mousePos;
+            contextPanel.SetActive(true);
+            contextText.text = obj.name;
         }
     }
 }

@@ -39,6 +39,16 @@ namespace Crewmates
                     + descriptions
                     ) ;
             }
+            if (gameManager.rightClicking)
+            {
+                if (Vector3.Distance(Input.mousePosition, contextPanel.transform.position) > 100)
+                {
+                    contextPanel.SetActive(false);
+                    gameManager.rightClicking = null;
+                }
+            }
+            else
+                contextPanel.SetActive(false);
         }
 
         public void ContextMenu(Vector3 mousePos, GameObject obj)

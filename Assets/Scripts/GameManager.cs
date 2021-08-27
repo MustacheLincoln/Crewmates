@@ -89,8 +89,8 @@ namespace Crewmates
 
         public string GenerateName()
         {
-            string[] firstName = new string[] { "Henry", "John", "Bill", "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo" };
-            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter", "Addams", "Robinson" };
+            string[] firstName = new string[] { "Henry", "John", "Bill", "Jack", "Pete", "William", "Ishmael", "Jonah", "Newt", "Wilhelm", "Abraham", "Asa", "Archibald", "Guillermo", "Corvo", "Moses", "Issac", "Pablo", "Clyde", "Ichabod", "Alexander", "Mordecai", "Moe", "Hans", "Davey", "Daniel", "Bjorn", "Erik" };
+            string[] lastName = new string[] { "Smith", "Silver", "Wallace", "Black", "Carver", "Forsythe", "Phelps", "Sanchez", "Puck", "Cooper", "Fletcher", "Carter", "Addams", "Robinson", "Gunn", "Wood", "Jones", "Crusoe", "Stevenson", "Melville", "Defoe", "Carter", "Anderson", "Gustafson" };
 
             return firstName[UnityEngine.Random.Range(0, firstName.Length)] + " " + lastName[UnityEngine.Random.Range(0, lastName.Length)];
         }

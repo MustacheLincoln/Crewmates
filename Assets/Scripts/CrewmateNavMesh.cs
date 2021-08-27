@@ -11,6 +11,7 @@ namespace Crewmates
         public bool isMoving = false;
         private float baseSpeed = 3.5f;
         public float speed;
+        public float velocity;
         private Action onArrivedAtPosition;
         private NavMeshAgent navMeshAgent;
 
@@ -29,6 +30,7 @@ namespace Crewmates
 
         private void Update()
         {
+            velocity = navMeshAgent.velocity.magnitude;
             navMeshAgent.speed = speed;
             if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.2)
             {

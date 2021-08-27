@@ -10,6 +10,7 @@ namespace Crewmates
     {
         private GameManager gameManager;
         private CrewmateNavMesh navMesh;
+        private Animator animator;
 
         public GameObject myTask;
         public TMP_Text nameText;
@@ -33,6 +34,7 @@ namespace Crewmates
             thirsty = gameObject.AddComponent<Thirsty>();
             gameManager = FindObjectOfType<GameManager>();
             navMesh = GetComponent<CrewmateNavMesh>();
+            animator = GetComponentInChildren<Animator>();
             ChangeWanderPosition();
         }
 
@@ -64,6 +66,8 @@ namespace Crewmates
                         GetConsumable(FindObjectsOfType<Rum>());
                 if (myTask == null)
                     FindGlobalTask();
+
+                animator.SetBool("Run", (navMesh.velocity > 1));
             }
         }
 
@@ -79,6 +83,7 @@ namespace Crewmates
                 {
                     consumable.Consume(this);
                     Destroy(consumable.gameObject);
+                    animator.SetTrigger("Consume");
                 });
             }
         }
@@ -163,7 +168,7 @@ namespace Crewmates
         private void ChangeWanderPosition()
         {
             wanderPosition = gameManager.GetRandomPosition();
-            Invoke("ChangeWanderPosition", UnityEngine.Random.Range(2, 8));
+            Invoke("ChangeWanderPosition", UnityEngine.Random.Range(6, 10));
         }
 
 
@@ -187,7 +192,6 @@ namespace Crewmates
         public void Ready()
         {
             ready = true;
-            transform.Find("Mesh").position += Vector3.down;
             navMesh.Enable();
             gameManager.crewmates.Add(this);
         }

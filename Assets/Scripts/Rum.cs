@@ -50,13 +50,18 @@ namespace Crewmates
                         crate.incomingItems++;
                         crewmate.MoveTo(transform.position, () =>
                         {
-                            transform.SetParent(crewmate.transform);
+                            transform.SetParent(crewmate.rightHand);
+                            transform.position = crewmate.rightHand.position;
+                            transform.rotation = crewmate.rightHand.rotation * Quaternion.Euler(90, 0, 0);
+                            PickedUp();
                             crewmate.MoveTo(crate.transform.position, () =>
                             {
                                 crate.incomingItems--;
                                 crate.items++;
                                 transform.SetParent(crate.transform);
                                 transform.position = CratePosition(crate);
+                                transform.rotation = Quaternion.identity;
+                                SetDown();
                                 storedIn = crate;
                                 isStored = true; 
                                 beingUsed = false;
@@ -73,6 +78,18 @@ namespace Crewmates
                 beingUsed = false;
             }
 
+        }
+
+        public void PickedUp()
+        {
+            transform.Find("Mesh").gameObject.SetActive(false);
+            transform.Find("CarriedMesh").gameObject.SetActive(true);
+        }
+
+        public void SetDown()
+        {
+            transform.Find("Mesh").gameObject.SetActive(true);
+            transform.Find("CarriedMesh").gameObject.SetActive(false);
         }
 
         private Vector3 CratePosition(Crate crate)

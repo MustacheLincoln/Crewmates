@@ -11,6 +11,7 @@ namespace Crewmates
         private GameManager gameManager;
         private CrewmateNavMesh navMesh;
         private Animator animator;
+        public Transform rightHand;
 
         public GameObject myTask;
         public TMP_Text nameText;
@@ -67,7 +68,7 @@ namespace Crewmates
                 if (myTask == null)
                     FindGlobalTask();
 
-                animator.SetBool("Run", (navMesh.velocity > 1));
+                animator.SetBool("Run", (navMesh.velocity > .5f));
             }
         }
 

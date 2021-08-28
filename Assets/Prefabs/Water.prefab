@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dce8cf0a8301b9a489a59dba8fc0c255, type: 2}
+  - {fileID: 2100000, guid: cf441ae183a92d54aaa91c1c5dcfc1eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,4 +97,4 @@ MonoBehaviour:
   isStored: 0
   storedIn: {fileID: 0}
   beingUsed: 0
-  gm: {fileID: 0}
+  gameManager: {fileID: 0}

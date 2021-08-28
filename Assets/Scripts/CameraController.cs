@@ -8,8 +8,8 @@ namespace Crewmates
     {
         public GameObject camFocus;
 
-        private float zoomSpeed = 20;
-        private float rotateSpeed = 5;
+        private float zoomSpeed = 750;
+        private float rotateSpeed = 250;
         private void Update()
         {
             transform.localPosition -= new Vector3(Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime, 0, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime);

@@ -10,6 +10,7 @@ namespace Crewmates
     {
         [SerializeField] private MouseRaycast mouseRaycast;
         [SerializeField] private UI UI;
+        public GameObject boat;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
@@ -98,11 +99,11 @@ namespace Crewmates
         public void Place(GameObject gameObject)
         {
             if (placing == null)
-                placing = Instantiate(gameObject);
+                placing = Instantiate(gameObject, boat.transform);
             else
             {
                 Destroy(placing);
-                placing = Instantiate(gameObject);
+                placing = Instantiate(gameObject, boat.transform);
             }
         }
     }

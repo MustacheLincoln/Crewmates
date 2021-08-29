@@ -32,7 +32,7 @@ namespace Crewmates
         {
             velocity = navMeshAgent.velocity.magnitude;
             navMeshAgent.speed = speed;
-            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.2)
+            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.25)
             {
                 if (isMoving == true)
                 {

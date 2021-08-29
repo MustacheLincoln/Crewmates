@@ -8,6 +8,7 @@ namespace Crewmates
     public class BirdPoopSpawner : MonoBehaviour
     {
         [SerializeField] GameObject birdPoopPrefab;
+        [SerializeField] GameObject boat;
         private GameManager gameManager;
 
         private void Awake()
@@ -18,7 +19,7 @@ namespace Crewmates
 
         private void SpawnBirdPoop()
         {
-            Instantiate(birdPoopPrefab, gameManager.GetRandomPosition() + Vector3.up / 100, Quaternion.Euler(90, 0, gameManager.GetRandomRotation()));
+            Instantiate(birdPoopPrefab, gameManager.GetRandomPosition() + Vector3.up / 100, Quaternion.Euler(90, 0, gameManager.GetRandomRotation()),boat.transform);
             Invoke("SpawnBirdPoop", UnityEngine.Random.Range(10, 20));
         }
     }

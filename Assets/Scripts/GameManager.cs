@@ -18,6 +18,20 @@ namespace Crewmates
         public GameObject selected;
         private GameObject tempSelected;
         public GameObject rightClicking;
+        public bool targeting;
+
+        public static GameManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+        }
 
         private void Update()
         {
@@ -36,9 +50,10 @@ namespace Crewmates
             if (Input.GetMouseButtonDown(0))
             {
                 tempSelected = null;
-                if (mouseRaycast.hitObject.transform.parent)
-                    if (mouseRaycast.hitObject.transform.parent.GetComponent<Crewmate>())
-                        tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
+                if (mouseRaycast.hitObject)
+                    if (mouseRaycast.hitObject.transform.parent)
+                        if (mouseRaycast.hitObject.transform.parent.GetComponent<Crewmate>())
+                            tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
             }
             if (Input.GetMouseButtonUp(0))
             {

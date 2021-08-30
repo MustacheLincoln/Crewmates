@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Crewmates
 {
-    public class OrbitCameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
         public GameObject camFocus;
         public Image spyGlassSprite;
@@ -27,6 +27,7 @@ namespace Crewmates
                     virtualCamera.Priority = 0;
                     camFocus.transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * povSpeedX * Time.deltaTime, 0);
                     Cursor.lockState = CursorLockMode.Locked;
+                    GameManager.Instance.targeting = true;
                     var tempColor = spyGlassSprite.color;
                     tempColor.a += .1f;
                     tempColor.a = Mathf.Clamp(tempColor.a, 0, 1);
@@ -37,13 +38,14 @@ namespace Crewmates
             {
                 heldTime = 0.2f;
                 virtualCamera.Priority = 99;
+                GameManager.Instance.targeting = false;
                 var tempColor = spyGlassSprite.color;
                 tempColor.a -= .1f;
                 tempColor.a = Mathf.Clamp(tempColor.a, 0, 1);
                 spyGlassSprite.color = tempColor;
                 Cursor.lockState = CursorLockMode.None;
                 transform.localPosition -= new Vector3(Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime, 0, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime);
-                if (transform.localPosition.z < 4 || transform.localPosition.z >= 75)
+                if (transform.localPosition.z < 5 || transform.localPosition.z >= 75)
                     transform.localPosition += new Vector3(Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime, 0, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime);
 
                 if (Input.GetMouseButton(2))
@@ -57,7 +59,7 @@ namespace Crewmates
                 if (Input.mousePosition.x < edgeSize)
                     camFocus.transform.rotation *= Quaternion.Euler(0, rotateAmount * Time.deltaTime, 0);
                 if (Input.mousePosition.y > Screen.height - edgeSize)
-                    if (transform.localPosition.z > 4)
+                    if (transform.localPosition.z > 5)
                         transform.localPosition -= new Vector3(zoomAmount * Time.deltaTime, 0, zoomAmount * Time.deltaTime);
                 if (Input.mousePosition.y < edgeSize)
                     if (transform.localPosition.z <= 75)

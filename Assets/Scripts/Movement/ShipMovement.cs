@@ -6,8 +6,6 @@ namespace Crewmates
 {
     public class ShipMovement : MonoBehaviour
     {
-        public Transform worldMove;
-        public Transform worldRotate;
         public Transform target;
 
         public bool docked;
@@ -24,11 +22,15 @@ namespace Crewmates
 
         private void Update()
         {
-            if (!docked && !anchored)
+            if (!docked && !anchored && target)
             {
                 if (speed < topSpeed)
                     speed += 1 * Time.deltaTime;
-                worldMove.position -= transform.forward * speed * Time.deltaTime;
+                transform.position += transform.forward * speed * Time.deltaTime;
+
+                Vector3 relativePos = target.position - transform.position;
+                Quaternion toRotation = Quaternion.LookRotation(relativePos);
+                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * (speed / 10) * Time.deltaTime);
             }
         }
     }

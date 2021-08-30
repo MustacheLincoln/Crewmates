@@ -484,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 121124075071141687}
-  - component: {fileID: 121124075071141686}
+  - component: {fileID: 619210644}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: Untagged
@@ -511,7 +511,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 45.34, z: 0}
---- !u!114 &121124075071141686
+--- !u!114 &619210644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -520,7 +520,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 121124075071141680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7050926f768ad754ca0b75058ee39ffe, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d8458b7aa7d43b44949e6ca22376768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  docked: 0
+  anchored: 0

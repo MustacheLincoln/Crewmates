@@ -29,7 +29,7 @@ namespace Crewmates
                     Cursor.lockState = CursorLockMode.Locked;
                     GameManager.Instance.targeting = true;
                     var tempColor = spyGlassSprite.color;
-                    tempColor.a += .1f;
+                    tempColor.a += 5 * Time.deltaTime;
                     tempColor.a = Mathf.Clamp(tempColor.a, 0, 1);
                     spyGlassSprite.color = tempColor;
                 }
@@ -40,7 +40,7 @@ namespace Crewmates
                 virtualCamera.Priority = 99;
                 GameManager.Instance.targeting = false;
                 var tempColor = spyGlassSprite.color;
-                tempColor.a -= .1f;
+                tempColor.a -= 5 * Time.deltaTime;
                 tempColor.a = Mathf.Clamp(tempColor.a, 0, 1);
                 spyGlassSprite.color = tempColor;
                 Cursor.lockState = CursorLockMode.None;

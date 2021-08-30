@@ -10,15 +10,17 @@ namespace Crewmates
     {
         [SerializeField] private MouseRaycast mouseRaycast;
         [SerializeField] private UI UI;
-        public GameObject boat;
+        public GameObject playerShip;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
         public List<Crate> crates;
+        public List<Enemy> targetedEnemies;
         public GameObject placing;
         public GameObject selected;
         private GameObject tempSelected;
         public GameObject rightClicking;
         public bool targeting;
+        public GameObject targetingTarget;
 
         public static GameManager Instance { get; private set; }
 
@@ -114,11 +116,11 @@ namespace Crewmates
         public void Place(GameObject gameObject)
         {
             if (placing == null)
-                placing = Instantiate(gameObject, boat.transform);
+                placing = Instantiate(gameObject, playerShip.transform);
             else
             {
                 Destroy(placing);
-                placing = Instantiate(gameObject, boat.transform);
+                placing = Instantiate(gameObject, playerShip.transform);
             }
         }
     }

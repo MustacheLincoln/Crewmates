@@ -14,7 +14,8 @@ namespace Crewmates
         public bool anchored;
 
         private float turnSpeed = .5f;
-        private float speed = 10;
+        private float speed;
+        private float topSpeed = 10;
 
         private void Awake()
         {
@@ -25,6 +26,8 @@ namespace Crewmates
         {
             if (!docked && !anchored)
             {
+                if (speed < topSpeed)
+                    speed += 1 * Time.deltaTime;
                 worldMove.position -= transform.forward * speed * Time.deltaTime;
             }
         }

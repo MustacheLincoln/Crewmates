@@ -8,8 +8,6 @@ namespace Crewmates
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private MouseRaycast mouseRaycast;
-        [SerializeField] private UI UI;
         public GameObject playerShip;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
@@ -21,6 +19,7 @@ namespace Crewmates
         public GameObject rightClicking;
         public bool targeting;
         public GameObject targetingTarget;
+        public int maxRange = 1000;
 
         public static GameManager Instance { get; private set; }
 
@@ -39,9 +38,9 @@ namespace Crewmates
         {
             if (placing)
             {
-                if (mouseRaycast.Walkable())
+                if (MouseRaycast.Instance.Walkable())
                 {
-                    placing.transform.position = mouseRaycast.hitPosition;
+                    placing.transform.position = MouseRaycast.Instance.hitPosition;
                     if (Input.GetMouseButtonUp(0))
                     {   
                         placing.GetComponent<IReadiable>().Ready();
@@ -52,10 +51,10 @@ namespace Crewmates
             if (Input.GetMouseButtonDown(0))
             {
                 tempSelected = null;
-                if (mouseRaycast.hitObject)
-                    if (mouseRaycast.hitObject.transform.parent)
-                        if (mouseRaycast.hitObject.transform.parent.GetComponent<Crewmate>())
-                            tempSelected = mouseRaycast.hitObject.transform.parent.gameObject;
+                if (MouseRaycast.Instance.hitObject)
+                    if (MouseRaycast.Instance.hitObject.transform.parent)
+                        if (MouseRaycast.Instance.hitObject.transform.parent.GetComponent<Crewmate>())
+                            tempSelected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -68,9 +67,9 @@ namespace Crewmates
                 if (selected)
                     selected = null;
                 if (tempSelected)
-                    if (mouseRaycast.hitObject.transform.parent.gameObject == tempSelected)
+                    if (MouseRaycast.Instance.hitObject.transform.parent.gameObject == tempSelected)
                     {
-                        selected = mouseRaycast.hitObject.transform.parent.gameObject;
+                        selected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
                         tempSelected = null;
                     }
             }
@@ -79,10 +78,10 @@ namespace Crewmates
             {
                 if (rightClicking)
                     rightClicking = null;
-                if (mouseRaycast.hitObject.transform.parent)
+                if (MouseRaycast.Instance.hitObject.transform.parent)
                 {
-                    rightClicking = mouseRaycast.hitObject.transform.parent.gameObject;
-                    UI.ContextMenu(Input.mousePosition, rightClicking);
+                    rightClicking = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                    UI.Instance.ContextMenu(Input.mousePosition, rightClicking);
                 }
             }
         }

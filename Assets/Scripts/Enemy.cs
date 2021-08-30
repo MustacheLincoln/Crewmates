@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Crewmates
             {
                 if (GameManager.Instance.targeting)
                 {
-                    if (Vector3.Distance(transform.position, GameManager.Instance.playerShip.transform.position) <= 1000)
+                    if (Vector3.Distance(transform.position, GameManager.Instance.playerShip.transform.position) <= GameManager.Instance.maxRange)
                     {
                         var pos = Camera.main.WorldToScreenPoint(transform.position);
                         targetingProgressRadial.transform.position = pos;
@@ -45,9 +46,7 @@ namespace Crewmates
                                     //Have a targeted gameobject so only one at a time gets targeted
                                     if (targetTime < 0)
                                     {
-                                        targeted = true;
-                                        targetingProgressRadial.fillAmount = 0;
-                                        GameManager.Instance.targetingTarget = null;
+                                        Target();
                                     }
                                 }
                             }
@@ -109,8 +108,28 @@ namespace Crewmates
                 targetingProgressRadial.fillAmount = 0;
                 if (GameManager.Instance.targetingTarget == this.gameObject)
                     GameManager.Instance.targetingTarget = null;
+                if (Vector3.Distance(transform.position, GameManager.Instance.playerShip.transform.position) > GameManager.Instance.maxRange)
+                    Untarget();
             }
         }
+
+        private void Target()
+        {
+            targeted = true;
+            if (GameManager.Instance.targetingTarget == this.gameObject)
+                GameManager.Instance.targetingTarget = null;
+            if (!GameManager.Instance.targetedEnemies.Contains(this))
+                GameManager.Instance.targetedEnemies.Add(this);
+        }
+
+        private void Untarget()
+        {
+            targeted = false;
+            if (GameManager.Instance.targetedEnemies.Contains(this))
+                GameManager.Instance.targetedEnemies.Remove(this);
+        }
+
+
     }
 }
 

@@ -6,12 +6,10 @@ namespace Crewmates
 {
     public class Barrel : Storage, IReadiable
     {
-        private GameManager gameManager;
         [SerializeField] private GameObject waterPrefab;
 
         private void Awake()
         {
-            gameManager = FindObjectOfType<GameManager>();
             maxItems = 8;
             items = maxItems;
         }

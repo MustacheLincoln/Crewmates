@@ -12,6 +12,19 @@ namespace Crewmates
         [SerializeField] private Camera mainCamera;
         [SerializeField] private LayerMask layerMask;
 
+        public static MouseRaycast Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
+        }
+
         void Update()
         {
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))

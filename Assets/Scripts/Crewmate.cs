@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -8,7 +7,6 @@ namespace Crewmates
 {
     public class Crewmate : MonoBehaviour, IReadiable
     {
-        private GameManager gameManager;
         private CrewmateNavMesh navMesh;
         private Animator animator;
         public Transform rightHand;
@@ -33,7 +31,6 @@ namespace Crewmates
         {
             drunk = gameObject.AddComponent<Drunk>();
             thirsty = gameObject.AddComponent<Thirsty>();
-            gameManager = FindObjectOfType<GameManager>();
             navMesh = GetComponent<CrewmateNavMesh>();
             animator = GetComponentInChildren<Animator>();
             ChangeWanderPosition();
@@ -43,7 +40,7 @@ namespace Crewmates
         {
             //Change to match their Rank once implimented
             navMesh.ChangePriority(UnityEngine.Random.Range(0, 99));
-            name = gameManager.GenerateName();
+            name = GameManager.Instance.GenerateName();
             nameText.text = name;
             nameText.enabled = false;
         }
@@ -57,7 +54,7 @@ namespace Crewmates
         {
             if (ready)
             {
-                nameText.enabled = (mousedOver == true || gameManager.selected == this.gameObject);
+                nameText.enabled = (mousedOver == true || GameManager.Instance.selected == this.gameObject);
                 Mood();
                 if (myTask == null)
                     if (hydration < 20)
@@ -112,7 +109,7 @@ namespace Crewmates
         private void FindGlobalTask()
         {
             GameObject task;
-            if (gameManager.globalTasks.Count > 0)
+            if (GameManager.Instance.globalTasks.Count > 0)
             {
                 task = ClosestTask();
                 if (IsClosestCrewmate(task))
@@ -127,7 +124,7 @@ namespace Crewmates
         private void SetTask(GameObject task)
         {
             myTask = task;
-            gameManager.globalTasks.Remove(myTask);
+            GameManager.Instance.globalTasks.Remove(myTask);
             myTask.GetComponent<ITask>().Task(this);
         }
 
@@ -135,7 +132,7 @@ namespace Crewmates
         {
             Crewmate closestCrewmate = null;
             float closestDist = Mathf.Infinity;
-            foreach (Crewmate crewmate in gameManager.crewmates)
+            foreach (Crewmate crewmate in GameManager.Instance.crewmates)
             {
                 if (crewmate.myTask == null)
                 {
@@ -154,7 +151,7 @@ namespace Crewmates
         {
             GameObject closestTask = null;
             float closestDist = Mathf.Infinity;
-            foreach (GameObject task in gameManager.globalTasks.ToList())
+            foreach (GameObject task in GameManager.Instance.globalTasks)
             {
                 float dist = (task.transform.position - transform.position).magnitude;
                 if (dist < closestDist)
@@ -168,7 +165,7 @@ namespace Crewmates
 
         private void ChangeWanderPosition()
         {
-            wanderPosition = gameManager.GetRandomPosition();
+            wanderPosition = GameManager.Instance.GetRandomPosition();
             Invoke("ChangeWanderPosition", UnityEngine.Random.Range(6, 10));
         }
 
@@ -194,7 +191,7 @@ namespace Crewmates
         {
             ready = true;
             navMesh.Enable();
-            gameManager.crewmates.Add(this);
+            GameManager.Instance.crewmates.Add(this);
         }
 
         internal void MouseEnter()

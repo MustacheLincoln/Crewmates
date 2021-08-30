@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Crewmates
@@ -10,19 +9,19 @@ namespace Crewmates
     {
         private void Update()
         {
-            if (gameManager.globalTasks.Contains(gameObject) == false)
+            if (GameManager.Instance.globalTasks.Contains(gameObject) == false)
             {
                 if (!beingUsed)
                 {
                     if (!isStored)
                     {
-                        if (gameManager.crates.Count > 0)
+                        if (GameManager.Instance.crates.Count > 0)
                         {
-                            foreach (Crate crate in gameManager.crates)
+                            foreach (Crate crate in GameManager.Instance.crates)
                             {
                                 if (crate.items + crate.incomingItems < crate.maxItems)
-                                    if (gameManager.globalTasks.Contains(gameObject) == false)
-                                        gameManager.globalTasks.Add(gameObject);
+                                    if (GameManager.Instance.globalTasks.Contains(gameObject) == false)
+                                        GameManager.Instance.globalTasks.Add(gameObject);
                             }
                         }
                     }
@@ -33,44 +32,36 @@ namespace Crewmates
         public void Task(Crewmate crewmate)
         {
             beingUsed = true;
-            List<Crate> openCrates = new List<Crate>(gameManager.crates);
-            foreach (Crate crate in gameManager.crates)
+            List<Crate> openCrates = new List<Crate>(GameManager.Instance.crates);
+            foreach (Crate crate in GameManager.Instance.crates)
             {
                 if (crate.items + crate.incomingItems >= crate.maxItems)
                     openCrates.Remove(crate);
             }
             if (openCrates.Count > 0)
             {
-                float closestDist = openCrates.Min(c => (c.transform.position - transform.position).magnitude);
-                foreach (Crate crate in openCrates)
+                Crate closestCrate = ClosestCrate(openCrates);
+                closestCrate.incomingItems++;
+                crewmate.MoveTo(transform.position, () =>
                 {
-                    float dist = (crate.transform.position - transform.position).magnitude;
-                    if (dist == closestDist)
+                    transform.SetParent(crewmate.rightHand);
+                    transform.position = crewmate.rightHand.position;
+                    transform.rotation = crewmate.rightHand.rotation * Quaternion.Euler(90, 0, 0);
+                    PickedUp();
+                    crewmate.MoveTo(closestCrate.transform.position, () =>
                     {
-                        crate.incomingItems++;
-                        crewmate.MoveTo(transform.position, () =>
-                        {
-                            transform.SetParent(crewmate.rightHand);
-                            transform.position = crewmate.rightHand.position;
-                            transform.rotation = crewmate.rightHand.rotation * Quaternion.Euler(90, 0, 0);
-                            PickedUp();
-                            crewmate.MoveTo(crate.transform.position, () =>
-                            {
-                                crate.incomingItems--;
-                                crate.items++;
-                                transform.SetParent(crate.transform);
-                                transform.position = CratePosition(crate);
-                                transform.rotation = Quaternion.identity;
-                                SetDown();
-                                storedIn = crate;
-                                isStored = true; 
-                                beingUsed = false;
-                                crewmate.ClearTask();
-                            });
-                        });
-                    }
-
-                }
+                        closestCrate.incomingItems--;
+                        closestCrate.items++;
+                        transform.SetParent(closestCrate.transform);
+                        transform.position = CratePosition(closestCrate);
+                        transform.rotation = Quaternion.identity;
+                        SetDown();
+                        storedIn = closestCrate;
+                        isStored = true; 
+                        beingUsed = false;
+                        crewmate.ClearTask();
+                    });
+                });
             }
             else
             {
@@ -78,6 +69,22 @@ namespace Crewmates
                 beingUsed = false;
             }
 
+        }
+
+        private Crate ClosestCrate(List<Crate> openCrates)
+        {
+            Crate closestCrate = null;
+            float closestDist = Mathf.Infinity;
+            foreach (Crate crate in openCrates)
+            {
+                float dist = (crate.transform.position - transform.position).magnitude;
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestCrate = crate;
+                }
+            }
+            return closestCrate;
         }
 
         public void PickedUp()

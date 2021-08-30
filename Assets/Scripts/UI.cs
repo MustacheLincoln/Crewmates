@@ -8,25 +8,30 @@ namespace Crewmates
 {
     public class UI : MonoBehaviour
     {
-        [SerializeField] private GameManager gameManager;
-        [SerializeField] private MouseRaycast mouseRaycast;
         [SerializeField] private GameObject statusPanel;
         [SerializeField] private GameObject contextPanel;
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private TMP_Text contextText;
 
+        public static UI Instance { get; private set; }
+
         private void Awake()
         {
-            gameManager = FindObjectOfType<GameManager>();
-            mouseRaycast = FindObjectOfType<MouseRaycast>();
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+                Destroy(gameObject);
         }
 
         private void Update()
         {
-            statusPanel.SetActive(gameManager.selected);
-            if (gameManager.selected)
+            statusPanel.SetActive(GameManager.Instance.selected);
+            if (GameManager.Instance.selected)
             {
-                var selected = gameManager.selected.GetComponent<Crewmate>();
+                var selected = GameManager.Instance.selected.GetComponent<Crewmate>();
                 string descriptions = "";
                 foreach (string modifier in selected.modifierDescriptions)
                 {
@@ -39,12 +44,12 @@ namespace Crewmates
                     + descriptions
                     ) ;
             }
-            if (gameManager.rightClicking)
+            if (GameManager.Instance.rightClicking)
             {
                 if (Vector3.Distance(Input.mousePosition, contextPanel.transform.position) > 150)
                 {
                     contextPanel.SetActive(false);
-                    gameManager.rightClicking = null;
+                    GameManager.Instance.rightClicking = null;
                 }
             }
             else

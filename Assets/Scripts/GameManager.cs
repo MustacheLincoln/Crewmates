@@ -57,10 +57,10 @@ namespace Crewmates
                 if (Input.GetMouseButtonDown(0))
                 {
                     tempSelected = null;
-                    if (MouseRaycast.Instance.hitObject)
-                        if (MouseRaycast.Instance.hitObject.transform.parent)
-                            if (MouseRaycast.Instance.hitObject.transform.parent.GetComponent<Crewmate>())
-                                tempSelected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                    if (MouseRaycast.Instance.HitObject())
+                        if (MouseRaycast.Instance.HitObject().transform.parent)
+                            if (MouseRaycast.Instance.HitObject().transform.parent.GetComponent<Crewmate>())
+                                tempSelected = MouseRaycast.Instance.HitObject().transform.parent.gameObject;
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -73,9 +73,9 @@ namespace Crewmates
                     if (selected)
                         selected = null;
                     if (tempSelected)
-                        if (MouseRaycast.Instance.hitObject.transform.parent.gameObject == tempSelected)
+                        if (MouseRaycast.Instance.HitObject().transform.parent.gameObject == tempSelected)
                         {
-                            selected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                            selected = MouseRaycast.Instance.HitObject().transform.parent.gameObject;
                             tempSelected = null;
                         }
                 }
@@ -84,9 +84,10 @@ namespace Crewmates
                 {
                     if (rightClicking)
                         rightClicking = null;
-                    if (MouseRaycast.Instance.hitObject.transform.parent)
+                    if(MouseRaycast.Instance.HitObject())
+                    if (MouseRaycast.Instance.HitObject().transform.parent)
                     {
-                        rightClicking = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                        rightClicking = MouseRaycast.Instance.HitObject().transform.parent.gameObject;
                         UI.Instance.ContextMenu(Input.mousePosition, rightClicking);
                     }
                 }

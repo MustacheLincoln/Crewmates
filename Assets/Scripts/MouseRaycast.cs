@@ -8,7 +8,6 @@ namespace Crewmates
     public class MouseRaycast : MonoBehaviour
     {
         public Vector3 walkablePosition;
-        public GameObject hitObject;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private LayerMask layerMask;
 

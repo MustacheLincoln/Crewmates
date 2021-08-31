@@ -12,7 +12,7 @@ namespace Crewmates
         public bool docked;
         public bool anchored;
 
-        private float turnSpeed = .5f;
+        private float turnSpeed = .1f;
         private float speed;
         private float topSpeed = 10;
 
@@ -29,7 +29,7 @@ namespace Crewmates
                     speed += 1 * Time.deltaTime;
                 transform.position += transform.forward * speed * Time.deltaTime;
 
-                Vector3 relativePos = target.position - transform.position;
+                Vector3 relativePos = (target.position + Vector3.right * 25) - transform.position;
                 Quaternion toRotation = Quaternion.LookRotation(relativePos);
                 transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * (speed / 10) * Time.deltaTime);
             }

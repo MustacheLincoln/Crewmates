@@ -193,6 +193,7 @@ namespace Crewmates
             ready = true;
             navMesh.Enable();
             GameManager.Instance.crewmates.Add(this);
+            transform.Find("Mesh").gameObject.layer = 0;
         }
 
         internal void MouseEnter()

@@ -15,6 +15,9 @@ namespace Crewmates
         private Action onArrivedAtPosition;
         private NavMeshAgent navMeshAgent;
 
+        //TEMP
+        public Transform destination;
+
         private void Awake()
         {
             speed = baseSpeed;
@@ -23,36 +26,39 @@ namespace Crewmates
         }
         internal void MoveTo(Vector3 position, Action onArrivedAtPosition)
         {
-            navMeshAgent.destination = position;
+            //navMeshAgent.destination = position;
             this.onArrivedAtPosition = onArrivedAtPosition;
             isMoving = true;
         }
 
         private void Update()
         {
-            velocity = navMeshAgent.velocity.magnitude;
-            navMeshAgent.speed = speed;
-            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.25)
+            //velocity = navMeshAgent.velocity.magnitude;
+            //navMeshAgent.speed = speed;
+            if (destination) //TEMP
             {
-                if (isMoving == true)
+                if (Vector3.Distance(transform.position, destination.position) <= 1.25)//(Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.25)
                 {
-                    onArrivedAtPosition?.Invoke();
-                    isMoving = false;
+                    if (isMoving == true)
+                    {
+                        onArrivedAtPosition?.Invoke();
+                        isMoving = false;
+                    }
                 }
+                else
+                    if (isMoving == false)
+                        isMoving = true;
             }
-            else
-                if (isMoving == false)
-                isMoving = true;
         }
 
         internal void ChangePriority(int priority)
         {
-            navMeshAgent.avoidancePriority = priority;
+            //navMeshAgent.avoidancePriority = priority;
         }
 
         public void Enable()
         {
-            navMeshAgent.enabled = true;
+            //navMeshAgent.enabled = true;
         }
 
     }

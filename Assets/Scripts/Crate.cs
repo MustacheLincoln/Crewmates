@@ -19,6 +19,7 @@ namespace Crewmates
         public void Ready()
         {
             gameManager.crates.Add(this);
+            transform.Find("Mesh").gameObject.layer = 0; //TEMP
         }
 
     }

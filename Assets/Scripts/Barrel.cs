@@ -27,6 +27,7 @@ namespace Crewmates
         public void Ready()
         {
             var water = GetComponentsInChildren<Water>();
+            transform.Find("Mesh").gameObject.layer = 0; //TEMP
             foreach (Water w in water)
                 w.Ready();
         }

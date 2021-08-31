@@ -25,18 +25,23 @@ namespace Crewmates
                 Destroy(gameObject);
         }
 
-        void Update()
+        public Vector3 HitPosition()
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-            {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, layerMask))
+                return hit.point;
+            else return Vector3.zero;
+        }
 
-                if (Physics.Raycast(ray, out hit, float.MaxValue))
-                {
-                    hitObject = hit.transform.gameObject;
-                }
+        public GameObject HitObject()
+        {
+            Ray objRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit objHit;
+            if (Physics.Raycast(objRay, out objHit, float.MaxValue, layerMask))
+            {
+                return objHit.transform.gameObject;
             }
+            else return null;
         }
 
         public bool Walkable()

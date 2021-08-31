@@ -126,6 +126,7 @@ namespace Crewmates
         public void Ready()
         {
             beingUsed = false;
+            transform.Find("Mesh").gameObject.layer = 0; //TEMP
         }
     }
 }

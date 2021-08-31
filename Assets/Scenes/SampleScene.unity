@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: bfb84447640813141bfca32048c73084, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &168000433 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1629452747506176944, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
@@ -1517,6 +1517,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1303161147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1629452749606924817, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
+  m_PrefabInstance: {fileID: 1629452747673741313}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1334979597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2334,7 +2339,7 @@ MonoBehaviour:
   mainCamera: {fileID: 1780420245}
   layerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 59
 --- !u!4 &1650706429
 Transform:
   m_ObjectHideFlags: 0
@@ -2821,6 +2826,7 @@ MonoBehaviour:
   targeting: 0
   targetingTarget: {fileID: 0}
   maxRange: 1000
+  floor: {fileID: 1303161147}
 --- !u!4 &2047130779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1629452749385241754, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
@@ -3027,5 +3033,9 @@ PrefabInstance:
       propertyPath: spyGlassSprite
       value: 
       objectReference: {fileID: 1263852483}
+    - target: {fileID: 1629452749606924817, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 822a8853be1fc464ba723aaba972e382, type: 3}

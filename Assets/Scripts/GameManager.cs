@@ -21,6 +21,10 @@ namespace Crewmates
         public GameObject targetingTarget;
         public int maxRange = 1000;
 
+
+        //Temp while waiting to spend $100
+        public GameObject floor;
+
         public static GameManager Instance { get; private set; }
 
         private void Awake()
@@ -38,64 +42,74 @@ namespace Crewmates
         {
             if (placing)
             {
-                if (MouseRaycast.Instance.Walkable())
+                if (MouseRaycast.Instance.HitObject())
                 {
-                    placing.transform.position = MouseRaycast.Instance.hitPosition;
-                    if (Input.GetMouseButtonUp(0))
-                    {   
-                        placing.GetComponent<IReadiable>().Ready();
-                        placing = null;
-                    }
-                }
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                tempSelected = null;
-                if (MouseRaycast.Instance.hitObject)
-                    if (MouseRaycast.Instance.hitObject.transform.parent)
-                        if (MouseRaycast.Instance.hitObject.transform.parent.GetComponent<Crewmate>())
-                            tempSelected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (rightClicking)
-                {
-                    rightClicking = null;
-                    tempSelected = null;
-                    return;
-                }
-                if (selected)
-                    selected = null;
-                if (tempSelected)
-                    if (MouseRaycast.Instance.hitObject.transform.parent.gameObject == tempSelected)
+                    if (MouseRaycast.Instance.HitObject() == floor)//(MouseRaycast.Instance.Walkable())
                     {
-                        selected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
-                        tempSelected = null;
+                        placing.transform.position = MouseRaycast.Instance.HitPosition();
+                        if (Input.GetMouseButton(0))
+                        {
+                            placing.GetComponent<IReadiable>().Ready();
+                            placing = null;
+                        }
                     }
+                }
             }
-
-            if (Input.GetMouseButtonDown(1))
+            else
             {
-                if (rightClicking)
-                    rightClicking = null;
-                if (MouseRaycast.Instance.hitObject.transform.parent)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    rightClicking = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
-                    UI.Instance.ContextMenu(Input.mousePosition, rightClicking);
+                    tempSelected = null;
+                    if (MouseRaycast.Instance.hitObject)
+                        if (MouseRaycast.Instance.hitObject.transform.parent)
+                            if (MouseRaycast.Instance.hitObject.transform.parent.GetComponent<Crewmate>())
+                                tempSelected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (rightClicking)
+                    {
+                        rightClicking = null;
+                        tempSelected = null;
+                        return;
+                    }
+                    if (selected)
+                        selected = null;
+                    if (tempSelected)
+                        if (MouseRaycast.Instance.hitObject.transform.parent.gameObject == tempSelected)
+                        {
+                            selected = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                            tempSelected = null;
+                        }
+                }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    if (rightClicking)
+                        rightClicking = null;
+                    if (MouseRaycast.Instance.hitObject.transform.parent)
+                    {
+                        rightClicking = MouseRaycast.Instance.hitObject.transform.parent.gameObject;
+                        UI.Instance.ContextMenu(Input.mousePosition, rightClicking);
+                    }
                 }
             }
         }
 
         public Vector3 GetRandomPosition()
         {
+            /*
             NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
 
             int t = UnityEngine.Random.Range(0, navMeshData.indices.Length - 3);
 
-            Vector3 point = Vector3.Lerp(navMeshData.vertices[navMeshData.indices[t]], navMeshData.vertices[navMeshData.indices[t + 1]], UnityEngine.Random.value);
-            Vector3.Lerp(point, navMeshData.vertices[navMeshData.indices[t + 2]], UnityEngine.Random.value);
+            Vector3 pos = Vector3.Lerp(navMeshData.vertices[navMeshData.indices[t]], navMeshData.vertices[navMeshData.indices[t + 1]], UnityEngine.Random.value);
+            Vector3.Lerp(pos, navMeshData.vertices[navMeshData.indices[t + 2]], UnityEngine.Random.value);
+            */
 
-            return point;
+            Vector3 pos = Vector3.zero;
+
+            return pos;
         }
 
         public int GetRandomRotation()

@@ -143,7 +143,6 @@ MonoBehaviour:
   isStored: 0
   storedIn: {fileID: 0}
   beingUsed: 0
-  gameManager: {fileID: 0}
 --- !u!1 &7860063907048626023
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +155,7 @@ GameObject:
   - component: {fileID: 5904365636426908280}
   - component: {fileID: 8508550985787848370}
   - component: {fileID: 6543916094982680133}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

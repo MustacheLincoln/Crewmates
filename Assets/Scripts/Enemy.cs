@@ -15,7 +15,7 @@ namespace Crewmates
         public Image targetingProgressRadial;
         public Image pirateIcon;
 
-        private void LateUpdate()
+        private void Update()
         {
             if (targeted == false)
             {
@@ -43,7 +43,6 @@ namespace Crewmates
                                         GameManager.Instance.targetingTarget = this.gameObject;
                                     targetTime -= Time.deltaTime;
                                     targetingProgressRadial.fillAmount += Time.deltaTime;
-                                    //Have a targeted gameobject so only one at a time gets targeted
                                     if (targetTime < 0)
                                     {
                                         Target();
@@ -103,9 +102,13 @@ namespace Crewmates
                 tempColor.a -= 5 * Time.deltaTime;
                 tempColor.a = Mathf.Clamp(tempColor.a, 0, 1);
                 pirateIcon.color = tempColor;
+                var tempColor1 = targetingProgressRadial.color;
+                tempColor1.a -= 5 * Time.deltaTime;
+                tempColor1.a = Mathf.Clamp(tempColor1.a, 0, 1);
+                targetingProgressRadial.color = tempColor1;
                 targetTime = 1f;
                 warmUpTime = 1;
-                targetingProgressRadial.fillAmount = 0;
+                targetingProgressRadial.fillAmount = 1;
                 if (GameManager.Instance.targetingTarget == this.gameObject)
                     GameManager.Instance.targetingTarget = null;
                 if (Vector3.Distance(transform.position, GameManager.Instance.playerShip.transform.position) > GameManager.Instance.maxRange)

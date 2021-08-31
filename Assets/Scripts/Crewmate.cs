@@ -66,6 +66,7 @@ namespace Crewmates
                     FindGlobalTask();
 
                 animator.SetBool("Run", (navMesh.velocity > .5f));
+
             }
         }
 

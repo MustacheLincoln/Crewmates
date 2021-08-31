@@ -23,7 +23,7 @@ namespace Crewmates
 
 
         //Temp while waiting to spend $100
-        public GameObject floor;
+        //public GameObject floor;
 
         public static GameManager Instance { get; private set; }
 
@@ -42,16 +42,13 @@ namespace Crewmates
         {
             if (placing)
             {
-                if (MouseRaycast.Instance.HitObject())
+                if (MouseRaycast.Instance.Walkable())//(MouseRaycast.Instance.HitObject() == floor)
                 {
-                    if (MouseRaycast.Instance.HitObject() == floor)//(MouseRaycast.Instance.Walkable())
+                    placing.transform.position = MouseRaycast.Instance.walkablePosition;//HitPosition()
+                    if (Input.GetMouseButton(0))
                     {
-                        placing.transform.position = MouseRaycast.Instance.HitPosition();
-                        if (Input.GetMouseButton(0))
-                        {
-                            placing.GetComponent<IReadiable>().Ready();
-                            placing = null;
-                        }
+                        placing.GetComponent<IReadiable>().Ready();
+                        placing = null;
                     }
                 }
             }
@@ -98,16 +95,12 @@ namespace Crewmates
 
         public Vector3 GetRandomPosition()
         {
-            /*
             NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
 
             int t = UnityEngine.Random.Range(0, navMeshData.indices.Length - 3);
 
             Vector3 pos = Vector3.Lerp(navMeshData.vertices[navMeshData.indices[t]], navMeshData.vertices[navMeshData.indices[t + 1]], UnityEngine.Random.value);
             Vector3.Lerp(pos, navMeshData.vertices[navMeshData.indices[t + 2]], UnityEngine.Random.value);
-            */
-
-            Vector3 pos = Vector3.zero;
 
             return pos;
         }

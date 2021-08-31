@@ -7,7 +7,7 @@ namespace Crewmates
 {
     public class MouseRaycast : MonoBehaviour
     {
-        public Vector3 hitPosition;
+        public Vector3 walkablePosition;
         public GameObject hitObject;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private LayerMask layerMask;
@@ -52,7 +52,7 @@ namespace Crewmates
                 NavMeshHit navHit;
                 if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
                 {
-                    hitPosition = navHit.position;
+                    walkablePosition = navHit.position;
                     return true;
                 }
                 else

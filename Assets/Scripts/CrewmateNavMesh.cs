@@ -16,7 +16,7 @@ namespace Crewmates
         private NavMeshAgent navMeshAgent;
 
         //TEMP
-        public Transform destination;
+        public Vector3 destination;
 
         private void Awake()
         {
@@ -26,39 +26,42 @@ namespace Crewmates
         }
         internal void MoveTo(Vector3 position, Action onArrivedAtPosition)
         {
-            //navMeshAgent.destination = position;
+            navMeshAgent.destination = position;//destination = position;
             this.onArrivedAtPosition = onArrivedAtPosition;
             isMoving = true;
         }
 
         private void Update()
         {
-            //velocity = navMeshAgent.velocity.magnitude;
-            //navMeshAgent.speed = speed;
-            if (destination) //TEMP
+            velocity = navMeshAgent.velocity.magnitude;
+            navMeshAgent.speed = speed;
+            if (Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.25)//(Vector3.Distance(transform.localPosition, destination) <= 1.25)
             {
-                if (Vector3.Distance(transform.position, destination.position) <= 1.25)//(Vector3.Distance(transform.position, navMeshAgent.destination) <= 1.25)
+                if (isMoving == true)
                 {
-                    if (isMoving == true)
-                    {
-                        onArrivedAtPosition?.Invoke();
-                        isMoving = false;
-                    }
+                    onArrivedAtPosition?.Invoke();
+                    isMoving = false;
                 }
-                else
-                    if (isMoving == false)
-                        isMoving = true;
+            }
+            else
+            {
+                if (isMoving == false)
+                    isMoving = true;
+
+                //TEMP
+                //transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
+
             }
         }
 
         internal void ChangePriority(int priority)
         {
-            //navMeshAgent.avoidancePriority = priority;
+            navMeshAgent.avoidancePriority = priority;
         }
 
         public void Enable()
         {
-            //navMeshAgent.enabled = true;
+            navMeshAgent.enabled = true;
         }
 
     }

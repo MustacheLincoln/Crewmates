@@ -56,6 +56,10 @@ namespace Crewmates
             {
                 nameText.enabled = (mousedOver == true || GameManager.Instance.selected == this.gameObject);
                 Mood();
+
+                if (myTask == null)
+                    if (GameManager.Instance.targetedEnemies.Count > 0)
+                        FindBattleTask();
                 if (myTask == null)
                     if (hydration < 20)
                         GetConsumable(FindObjectsOfType<Water>());
@@ -68,6 +72,35 @@ namespace Crewmates
                 animator.SetBool("Run", (navMesh.velocity > .5f));
 
             }
+        }
+
+        private void FindBattleTask()
+        {
+            GameObject task;
+            if (GameManager.Instance.battleTasks.Count > 0)
+            {
+                task = ClosestBattleTask();
+                if (IsClosestCrewmate(task))
+                {
+                    SetTask(task);
+                }
+            }
+        }
+
+        private GameObject ClosestBattleTask()
+        {
+            GameObject closestTask = null;
+            float closestDist = Mathf.Infinity;
+            foreach (GameObject task in GameManager.Instance.battleTasks)
+            {
+                float dist = (task.transform.position - transform.position).magnitude;
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestTask = task;
+                }
+            }
+            return closestTask;
         }
 
         public void GetConsumable(Array array)
@@ -112,7 +145,7 @@ namespace Crewmates
             GameObject task;
             if (GameManager.Instance.globalTasks.Count > 0)
             {
-                task = ClosestTask();
+                task = ClosestGlobalTask();
                 if (IsClosestCrewmate(task))
                 {
                     SetTask(task);
@@ -126,6 +159,7 @@ namespace Crewmates
         {
             myTask = task;
             GameManager.Instance.globalTasks.Remove(myTask);
+            GameManager.Instance.battleTasks.Remove(myTask);
             myTask.GetComponent<ITask>().Task(this);
         }
 
@@ -148,7 +182,7 @@ namespace Crewmates
             return (this == closestCrewmate);
         }
 
-        private GameObject ClosestTask()
+        private GameObject ClosestGlobalTask()
         {
             GameObject closestTask = null;
             float closestDist = Mathf.Infinity;

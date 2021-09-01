@@ -121,15 +121,15 @@ namespace Crewmates
             targeted = true;
             if (GameManager.Instance.targetingTarget == this.gameObject)
                 GameManager.Instance.targetingTarget = null;
-            if (!GameManager.Instance.targetedEnemies.Contains(this))
-                GameManager.Instance.targetedEnemies.Add(this);
+            if (!GameManager.Instance.targetedEnemies.Contains(this.gameObject))
+                GameManager.Instance.targetedEnemies.Add(this.gameObject);
         }
 
         private void Untarget()
         {
             targeted = false;
-            if (GameManager.Instance.targetedEnemies.Contains(this))
-                GameManager.Instance.targetedEnemies.Remove(this);
+            if (GameManager.Instance.targetedEnemies.Contains(this.gameObject))
+                GameManager.Instance.targetedEnemies.Remove(this.gameObject);
         }
 
 

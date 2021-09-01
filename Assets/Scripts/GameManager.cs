@@ -11,8 +11,9 @@ namespace Crewmates
         public GameObject playerShip;
         public List<Crewmate> crewmates;
         public List<GameObject> globalTasks;
+        public List<GameObject> battleTasks;
         public List<Crate> crates;
-        public List<Enemy> targetedEnemies;
+        public List<GameObject> targetedEnemies;
         public GameObject placing;
         public GameObject selected;
         private GameObject tempSelected;
@@ -40,6 +41,7 @@ namespace Crewmates
 
         private void Update()
         {
+            targetedEnemies.RemoveAll(x => !x);
             if (placing)
             {
                 if (MouseRaycast.Instance.Walkable())//(MouseRaycast.Instance.HitObject() == floor)
@@ -73,11 +75,12 @@ namespace Crewmates
                     if (selected)
                         selected = null;
                     if (tempSelected)
-                        if (MouseRaycast.Instance.HitObject().transform.parent.gameObject == tempSelected)
-                        {
-                            selected = MouseRaycast.Instance.HitObject().transform.parent.gameObject;
-                            tempSelected = null;
-                        }
+                        if (MouseRaycast.Instance.HitObject())
+                            if (MouseRaycast.Instance.HitObject().transform.parent.gameObject == tempSelected)
+                            {
+                                selected = MouseRaycast.Instance.HitObject().transform.parent.gameObject;
+                                tempSelected = null;
+                            }
                 }
 
                 if (Input.GetMouseButtonDown(1))

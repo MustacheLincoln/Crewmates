@@ -56,7 +56,6 @@ namespace Crewmates
                 if (stationed)
                 {
                     var ar = AimRotation(muzzle.position, OptimalEnemy().transform.position, muzzleVelocity);
-                    print(Quaternion.Angle(defaultRotation * transform.parent.rotation, ar));
                     if (Quaternion.Angle(defaultRotation * transform.parent.rotation, ar) <= 75)
                     {
                         transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);

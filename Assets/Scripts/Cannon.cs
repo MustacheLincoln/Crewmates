@@ -6,7 +6,6 @@ namespace Crewmates
 {
     public class Cannon : MonoBehaviour, ITask, IReadiable
     {
-        private bool beingUsed;
         public GameObject cannonBall;
         public Crewmate stationed;
         public Transform muzzle;
@@ -15,11 +14,13 @@ namespace Crewmates
         public float muzzleVelocity = 100;
 
         private float loadTime = 5;
-        private float turnSpeed = 2;
+        private float turnSpeed = 3;
+        private Quaternion defaultRotation;
 
         private void Start()
         {
             Ready();//?
+            defaultRotation = transform.localRotation;
         }
 
         public void Ready()
@@ -32,8 +33,7 @@ namespace Crewmates
 
         public void Task(Crewmate crewmate)
         {
-            beingUsed = true;
-            if (ClosestEnemy())
+            if (OptimalEnemy())
             {
                 crewmate.MoveTo(transform.position, () =>
                 {
@@ -44,7 +44,6 @@ namespace Crewmates
             {
                 crewmate.myTask = null;
                 stationed = null;
-                beingUsed = false;
                 if (!GameManager.Instance.battleTasks.Contains(this.gameObject))
                     GameManager.Instance.battleTasks.Add(this.gameObject);
             }
@@ -52,16 +51,20 @@ namespace Crewmates
 
         private void Update()
         {
-            if (ClosestEnemy())
+            if (OptimalEnemy())
             {
                 if (stationed)
                 {
-                    var ar = AimRotation(muzzle.position, ClosestEnemy().transform.position, muzzleVelocity);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);
-                    loadTime -= Time.deltaTime;
-                    if (loadTime < 0 && transform.rotation == ar)
+                    var ar = AimRotation(muzzle.position, OptimalEnemy().transform.position, muzzleVelocity);
+                    print(Quaternion.Angle(defaultRotation * transform.parent.rotation, ar));
+                    if (Quaternion.Angle(defaultRotation * transform.parent.rotation, ar) <= 75)
                     {
-                        FireCannonAtPoint(ClosestEnemy().transform.position);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);
+                    }
+                    loadTime -= Time.deltaTime;
+                    if (loadTime < 0 && Quaternion.Angle(transform.rotation, ar) < 1)
+                    {
+                        FireCannonAtPoint(OptimalEnemy().transform.position);
                         loadTime = 5;
                     }
 
@@ -74,7 +77,6 @@ namespace Crewmates
                     stationed.myTask = null;
                     //Celebrate animation
                     stationed = null;
-                    beingUsed = false;
                     if (!GameManager.Instance.battleTasks.Contains(this.gameObject))
                         GameManager.Instance.battleTasks.Add(this.gameObject);
                 }
@@ -83,7 +85,7 @@ namespace Crewmates
 
         }
 
-        private GameObject ClosestEnemy()
+        private GameObject OptimalEnemy()
         {
             GameObject closestEnemy = null;
             float closestDist = Mathf.Infinity;
@@ -91,6 +93,8 @@ namespace Crewmates
             {
                 foreach (GameObject enemy in GameManager.Instance.targetedEnemies)
                 {
+                    if (Quaternion.Angle(AimRotation(muzzle.position, enemy.transform.position, muzzleVelocity), defaultRotation * transform.parent.rotation) > 75)
+                        continue;
                     float dist = (enemy.transform.position - transform.position).magnitude;
                     if (dist < closestDist)
                     {

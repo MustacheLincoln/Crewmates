@@ -118,14 +118,11 @@ namespace Crewmates
 
         public Quaternion AimRotation(Vector3 start, Vector3 end, float velocity)
         {
-
-            float low;
-            float high;
-            Ballistics.CalculateTrajectory(start, end, velocity, out low, out high); //get the angle
-
+            float angle;
+            Ballistics.CalculateTrajectory(start, end, velocity, out angle); //get the angle
 
             Vector3 wantedRotationVector = Quaternion.LookRotation(end - start).eulerAngles; //get the direction
-            wantedRotationVector.x += low; //combine the two
+            wantedRotationVector.x += angle; //combine the two
             return Quaternion.Euler(wantedRotationVector); //into a quaternion
         }
     }

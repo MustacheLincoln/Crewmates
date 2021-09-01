@@ -12,6 +12,8 @@ namespace Crewmates
         private float warmUpTime = 1;
         private bool targeted;
 
+        private float health = 100;
+
         public Image targetingProgressRadial;
         public Image pirateIcon;
 
@@ -132,7 +134,18 @@ namespace Crewmates
                 GameManager.Instance.targetedEnemies.Remove(this.gameObject);
         }
 
+        public void TakeDamage(float damage)
+        {
+            health -= damage;
+            if (health <= 0)
+                Die();
+        }
 
+        private void Die()
+        {
+            Untarget();
+            Destroy(gameObject);
+        }
     }
 }
 

@@ -13,9 +13,8 @@ public static class Ballistics
     /// <param name="start">The muzzle.</param>
     /// <param name="end">Wanted hit point.</param>
     /// <param name="muzzleVelocity">Muzzle velocity.</param>
-    public static bool CalculateTrajectory(Vector3 start, Vector3 end, float muzzleVelocity, out float lowAngle, out float highAngle)
+    public static bool CalculateTrajectory(Vector3 start, Vector3 end, float muzzleVelocity, out float angle)
     {
-
         Vector3 dir = end - start;
         float vSqr = muzzleVelocity * muzzleVelocity;
         float y = dir.y;
@@ -30,16 +29,14 @@ public static class Ballistics
         {
 
             //target out of range.
-            lowAngle = -45.0f;
-            highAngle = -45.0f;
+            angle = -45.0f;
             return false;
         }
 
         float r = Mathf.Sqrt (uRoot);
         float bottom = g * Mathf.Sqrt (x);
 
-        lowAngle = -Mathf.Atan2(g * Mathf.Sqrt(x), vSqr + Mathf.Sqrt(uRoot)) * Mathf.Rad2Deg;
-        highAngle = -Mathf.Atan2 (bottom, vSqr - r) * Mathf.Rad2Deg;
+        angle = -Mathf.Atan2(g * Mathf.Sqrt(x), vSqr + Mathf.Sqrt(uRoot)) * Mathf.Rad2Deg;
         return true;
 
     }

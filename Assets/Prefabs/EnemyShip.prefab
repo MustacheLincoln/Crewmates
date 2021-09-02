@@ -526,6 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  collider: {fileID: 0}
   docked: 0
   anchored: 0
 --- !u!114 &6732103595199980679

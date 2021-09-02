@@ -8,11 +8,12 @@ namespace Crewmates
     {
 
         public Transform target;
+        public Collider collider;
 
         public bool docked;
         public bool anchored;
 
-        private float turnSpeed = .1f;
+        private float turnSpeed = .15f;
         private float speed;
         private float topSpeed = 10;
 
@@ -35,13 +36,52 @@ namespace Crewmates
 
                 RaycastHit hit;
                 // Does the ray intersect any objects excluding the player layer
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 250))
+                if (Physics.Raycast(transform.position, transform.right, out hit, 25))
                 {
-                    toRotation = Quaternion.LookRotation(-relativePos);
+                    toRotation = Quaternion.LookRotation(-transform.right);
+                }
+                if (Physics.Raycast(transform.position + transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                {
+                    toRotation = Quaternion.LookRotation(-transform.right);
+                    if (speed > 4)
+                        speed -= 2 * Time.deltaTime;
+                }
+                if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 50))
+                {
+                    toRotation = Quaternion.LookRotation(-transform.right);
+                }
+                if (Physics.Raycast(transform.position, -transform.right, out hit, 25))
+                {
+                    toRotation = Quaternion.LookRotation(transform.right);
+                }
+                if (Physics.Raycast(transform.position + -transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                { 
+                    toRotation = Quaternion.LookRotation(transform.right);
+                    if (speed > 4)
+                        speed -= 2 * Time.deltaTime;
+                }
+                if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 50))
+                {
+                    toRotation = Quaternion.LookRotation(transform.right);
+                }
+                if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 30))
+                {
+                    if (speed > 1)
+                        speed -= 3 * Time.deltaTime;
+                }
+                if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 30))
+                {
+                    if (speed > 1)
+                        speed -= 3 * Time.deltaTime;
+                }
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 50))
+                {
+                    if (speed > 1)
+                        speed -= 3 * Time.deltaTime;
                 }
 
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * (speed / 10) * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
             }
         }
     }

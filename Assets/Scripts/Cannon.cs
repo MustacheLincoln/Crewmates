@@ -13,6 +13,7 @@ namespace Crewmates
         public Transform cannonBase;
         public float muzzleVelocity = 100;
 
+        private float rotationRange = 75;
         private float loadTime = 5;
         private float turnSpeed = 3;
         private Quaternion defaultRotation;
@@ -55,13 +56,19 @@ namespace Crewmates
             {
                 if (stationed)
                 {
-                    var ar = AimRotation(muzzle.position, OptimalEnemy().transform.position, muzzleVelocity);
-                    if (Quaternion.Angle(defaultRotation * transform.parent.rotation, ar) <= 75)
+                    Quaternion aimRotation = AimRotation(muzzle.position, OptimalEnemy().transform.position, muzzleVelocity);
+                    Vector3 rotationEulers = aimRotation.eulerAngles;
+                    rotationEulers.x -= 90;
+                    if (Quaternion.Angle(defaultRotation * transform.parent.rotation, aimRotation) <= rotationRange)
                     {
-                        transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);
+                        cannonBarrel.rotation = Quaternion.Lerp(cannonBarrel.rotation, Quaternion.Euler(rotationEulers), turnSpeed * Time.deltaTime);
+                        rotationEulers.x = -90;
+                        cannonBase.rotation = Quaternion.Lerp(cannonBase.rotation, Quaternion.Euler(rotationEulers), turnSpeed * Time.deltaTime);
+                        //transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);
                     }
                     loadTime -= Time.deltaTime;
-                    if (loadTime < 0 && Quaternion.Angle(transform.rotation, ar) < 1)
+                    print(Quaternion.Angle(cannonBarrel.rotation, Quaternion.Euler(rotationEulers)));
+                    if (loadTime < 0 && Quaternion.Angle(cannonBarrel.rotation, Quaternion.Euler(rotationEulers)) < 20)
                     {
                         FireCannonAtPoint(OptimalEnemy().transform.position);
                         loadTime = 5;
@@ -92,7 +99,7 @@ namespace Crewmates
             {
                 foreach (GameObject enemy in GameManager.Instance.targetedEnemies)
                 {
-                    if (Quaternion.Angle(AimRotation(muzzle.position, enemy.transform.position, muzzleVelocity), defaultRotation * transform.parent.rotation) > 75)
+                    if (Quaternion.Angle(AimRotation(muzzle.position, enemy.transform.position, muzzleVelocity), defaultRotation * transform.parent.rotation) > rotationRange)
                         continue;
                     float dist = (enemy.transform.position - transform.position).magnitude;
                     if (dist < closestDist)
@@ -112,8 +119,8 @@ namespace Crewmates
             Rigidbody cbrb = cb.GetComponent<Rigidbody>();
 
             cbrb.transform.position = muzzle.position;
-            cbrb.transform.rotation = transform.rotation;
-            cbrb.velocity = transform.forward * (muzzleVelocity + Random.Range(-10, 10));
+            cbrb.transform.rotation = cannonBarrel.rotation;
+            cbrb.velocity = -cannonBarrel.up * (muzzleVelocity + Random.Range(-10, 10));
         }
 
         public Quaternion AimRotation(Vector3 start, Vector3 end, float velocity)

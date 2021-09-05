@@ -19,69 +19,74 @@ namespace Crewmates
 
         private void Awake()
         {
-            docked = false;
+            docked = true;
         }
 
         private void Update()
         {
-            if (!docked && !anchored && target)
+            if (!docked && !anchored)
             {
                 if (speed < topSpeed)
                     speed += 1 * Time.deltaTime;
                 transform.position += transform.forward * speed * Time.deltaTime;
 
-                Vector3 relativePos = target.position - transform.position;
-                Quaternion toRotation = Quaternion.LookRotation(relativePos);
+                if (target)
+                {
+                    Vector3 relativePos = target.position - transform.position;
+                    Quaternion toRotation = Quaternion.LookRotation(relativePos);
 
 
-                RaycastHit hit;
-                // Does the ray intersect any objects excluding the player layer
-                if (Physics.Raycast(transform.position, transform.right, out hit, 25))
-                {
-                    toRotation = Quaternion.LookRotation(-transform.right);
-                }
-                if (Physics.Raycast(transform.position + transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
-                {
-                    toRotation = Quaternion.LookRotation(-transform.right);
-                    if (speed > 4)
-                        speed -= 2 * Time.deltaTime;
-                }
-                if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 50))
-                {
-                    toRotation = Quaternion.LookRotation(-transform.right);
-                }
-                if (Physics.Raycast(transform.position, -transform.right, out hit, 25))
-                {
-                    toRotation = Quaternion.LookRotation(transform.right);
-                }
-                if (Physics.Raycast(transform.position + -transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
-                { 
-                    toRotation = Quaternion.LookRotation(transform.right);
-                    if (speed > 4)
-                        speed -= 2 * Time.deltaTime;
-                }
-                if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 50))
-                {
-                    toRotation = Quaternion.LookRotation(transform.right);
-                }
-                if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 30))
-                {
-                    if (speed > 1)
-                        speed -= 3 * Time.deltaTime;
-                }
-                if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 30))
-                {
-                    if (speed > 1)
-                        speed -= 3 * Time.deltaTime;
-                }
-                if (Physics.Raycast(transform.position, transform.forward, out hit, 50))
-                {
-                    if (speed > 1)
-                        speed -= 3 * Time.deltaTime;
-                }
+                    RaycastHit hit;
+                    // Does the ray intersect any objects excluding the player layer
+                    if (Physics.Raycast(transform.position, transform.right, out hit, 25))
+                    {
+                        toRotation = Quaternion.LookRotation(-transform.right);
+                    }
+                    if (Physics.Raycast(transform.position + transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                    {
+                        toRotation = Quaternion.LookRotation(-transform.right);
+                        if (speed > 4)
+                            speed -= 2 * Time.deltaTime;
+                    }
+                    if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 50))
+                    {
+                        toRotation = Quaternion.LookRotation(-transform.right);
+                    }
+                    if (Physics.Raycast(transform.position, -transform.right, out hit, 25))
+                    {
+                        toRotation = Quaternion.LookRotation(transform.right);
+                    }
+                    if (Physics.Raycast(transform.position + -transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                    {
+                        toRotation = Quaternion.LookRotation(transform.right);
+                        if (speed > 4)
+                            speed -= 2 * Time.deltaTime;
+                    }
+                    if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 50))
+                    {
+                        toRotation = Quaternion.LookRotation(transform.right);
+                    }
+                    if (Physics.Raycast(transform.position, transform.forward + transform.right, out hit, 30))
+                    {
+                        if (speed > 1)
+                            speed -= 3 * Time.deltaTime;
+                    }
+                    if (Physics.Raycast(transform.position, transform.forward - transform.right, out hit, 30))
+                    {
+                        if (speed > 1)
+                            speed -= 3 * Time.deltaTime;
+                    }
+                    if (Physics.Raycast(transform.position, transform.forward, out hit, 50))
+                    {
+                        if (speed > 1)
+                            speed -= 3 * Time.deltaTime;
+                    }
 
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, turnSpeed * Time.deltaTime);
+                }
+
+                
             }
         }
     }

@@ -64,10 +64,8 @@ namespace Crewmates
                         cannonBarrel.rotation = Quaternion.Lerp(cannonBarrel.rotation, Quaternion.Euler(rotationEulers), turnSpeed * Time.deltaTime);
                         rotationEulers.x = -90;
                         cannonBase.rotation = Quaternion.Lerp(cannonBase.rotation, Quaternion.Euler(rotationEulers), turnSpeed * Time.deltaTime);
-                        //transform.rotation = Quaternion.Lerp(transform.rotation, ar, turnSpeed * Time.deltaTime);
                     }
                     loadTime -= Time.deltaTime;
-                    print(Quaternion.Angle(cannonBarrel.rotation, Quaternion.Euler(rotationEulers)));
                     if (loadTime < 0 && Quaternion.Angle(cannonBarrel.rotation, Quaternion.Euler(rotationEulers)) < 20)
                     {
                         FireCannonAtPoint(OptimalEnemy().transform.position);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -235,8 +235,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171102866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.2911, z: 0}
-  m_LocalScale: {x: 1, y: 5.58217, z: 1}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 168000434}
   m_RootOrder: 11
@@ -3383,7 +3383,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652964122}
-  m_LocalRotation: {x: -0.04595094, y: 0.94235337, z: -0.14537337, w: -0.29786766}
+  m_LocalRotation: {x: -0.04595095, y: 0.9423534, z: -0.1453734, w: -0.29786763}
   m_LocalPosition: {x: 12.908302, y: 7.098216, z: 18.378687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3638,7 +3638,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780420243}
-  m_LocalRotation: {x: -0.04595094, y: 0.94235337, z: -0.14537337, w: -0.29786766}
+  m_LocalRotation: {x: -0.04595095, y: 0.9423534, z: -0.1453734, w: -0.29786763}
   m_LocalPosition: {x: 12.908302, y: 7.098216, z: 18.378687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4325,6 +4325,10 @@ PrefabInstance:
     - target: {fileID: 1629452747506176944, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
       propertyPath: m_Name
       value: PlayerShip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629452747506176944, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1629452747506176947, guid: 822a8853be1fc464ba723aaba972e382, type: 3}
       propertyPath: m_RootOrder

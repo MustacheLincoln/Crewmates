@@ -17,10 +17,15 @@ namespace Crewmates
         private float speed;
         private float topSpeed = 10;
 
-        private void Awake()
+        private void Start()
         {
-            docked = true;
+            if (gameObject.CompareTag("Player"))
+            {
+                docked = true;
+                anchored = true;
+            }
         }
+
 
         private void Update()
         {
@@ -37,7 +42,6 @@ namespace Crewmates
 
 
                     RaycastHit hit;
-                    // Does the ray intersect any objects excluding the player layer
                     if (Physics.Raycast(transform.position, transform.right, out hit, 25))
                     {
                         toRotation = Quaternion.LookRotation(-transform.right);

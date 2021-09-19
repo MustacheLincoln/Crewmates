@@ -8,13 +8,12 @@ namespace Crewmates
     {
 
         public Transform target;
-        public Collider collider;
 
         public bool docked;
         public bool anchored;
 
         private float turnSpeed = .15f;
-        private float speed;
+        public float speed;
         private float topSpeed = 10;
 
         private void Start()
@@ -46,7 +45,7 @@ namespace Crewmates
                     {
                         toRotation = Quaternion.LookRotation(-transform.right);
                     }
-                    if (Physics.Raycast(transform.position + transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                    if (Physics.Raycast(transform.position + transform.right * 10, transform.forward, out hit, 100))
                     {
                         toRotation = Quaternion.LookRotation(-transform.right);
                         if (speed > 4)
@@ -60,7 +59,7 @@ namespace Crewmates
                     {
                         toRotation = Quaternion.LookRotation(transform.right);
                     }
-                    if (Physics.Raycast(transform.position + -transform.right * (collider.bounds.extents.x), transform.forward, out hit, 100))
+                    if (Physics.Raycast(transform.position + -transform.right * 10, transform.forward, out hit, 100))
                     {
                         toRotation = Quaternion.LookRotation(transform.right);
                         if (speed > 4)

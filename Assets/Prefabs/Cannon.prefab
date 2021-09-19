@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cannonBall: {fileID: 1395225363437465955, guid: c2a495bd2cefdd6439097db6e8c777b7, type: 3}
+  leadTarget: {fileID: 7133604630502535542, guid: 41d855e4cd018bd4b9d56ca386a461be, type: 3}
   stationed: {fileID: 0}
   muzzle: {fileID: 6615898919872583953}
   cannonBarrel: {fileID: 7568189879813117012}

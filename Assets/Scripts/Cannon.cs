@@ -7,15 +7,19 @@ namespace Crewmates
     public class Cannon : MonoBehaviour, ITask, IReadiable
     {
         public GameObject cannonBall;
+        public GameObject leadTarget;
+        private GameObject optimalEnemy;
+        private GameObject enemyLeadTarget;
+        private ShipMovement enemyShipMovement;
         public Crewmate stationed;
         public Transform muzzle;
         public Transform cannonBarrel;
         public Transform cannonBase;
         public float muzzleVelocity = 100;
-
         private float rotationRange = 75;
         private float loadTime = 5;
         private float turnSpeed = 3;
+        private float angle;
         private Quaternion defaultRotation;
 
         private void Start()
@@ -56,7 +60,18 @@ namespace Crewmates
             {
                 if (stationed)
                 {
-                    Quaternion aimRotation = AimRotation(muzzle.position, OptimalEnemy().transform.position, muzzleVelocity);
+                    if (optimalEnemy != OptimalEnemy())
+                    {
+                        if (enemyLeadTarget)
+                            Destroy(enemyLeadTarget);
+                        optimalEnemy = OptimalEnemy();
+                        enemyLeadTarget = Instantiate(leadTarget, OptimalEnemy().transform);
+                        enemyShipMovement = optimalEnemy.GetComponent<ShipMovement>();
+                    }
+
+                    Quaternion aimRotation = AimRotation(muzzle.position, enemyLeadTarget.transform.position, muzzleVelocity);
+                    float leadDistance = -angle * enemyShipMovement.speed / 2;
+                    enemyLeadTarget.transform.localPosition = new Vector3(0, 0, leadDistance);
                     Vector3 rotationEulers = aimRotation.eulerAngles;
                     rotationEulers.x -= 90;
                     if (Quaternion.Angle(defaultRotation * transform.parent.rotation, aimRotation) <= rotationRange)
@@ -68,7 +83,7 @@ namespace Crewmates
                     loadTime -= Time.deltaTime;
                     if (loadTime < 0 && Quaternion.Angle(cannonBarrel.rotation, Quaternion.Euler(rotationEulers)) < 20)
                     {
-                        FireCannonAtPoint(OptimalEnemy().transform.position);
+                        FireCannonAtPoint(enemyLeadTarget.transform.position);
                         loadTime = 5;
                     }
 
@@ -123,7 +138,6 @@ namespace Crewmates
 
         public Quaternion AimRotation(Vector3 start, Vector3 end, float velocity)
         {
-            float angle;
             Ballistics.CalculateTrajectory(start, end, velocity, out angle); //get the angle
 
             Vector3 wantedRotationVector = Quaternion.LookRotation(end - start).eulerAngles; //get the direction

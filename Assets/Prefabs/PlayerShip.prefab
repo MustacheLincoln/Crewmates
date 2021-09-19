@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 1629452747506176946}
   m_Layer: 0
   m_Name: PlayerShip
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  collider: {fileID: 0}
   docked: 0
   anchored: 0
 --- !u!1 &1629452747909099866
